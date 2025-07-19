@@ -1,0 +1,118 @@
+package com.hashrate.controller;
+
+import com.hashrate.dto.TicketDTO;
+import com.hashrate.model.Ticket;
+import com.hashrate.model.Ticket.Priority;
+import com.hashrate.model.Ticket.TicketType;
+import com.hashrate.repository.TicketRepository;
+import com.hashrate.service.EmailService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.UUID;
+
+@Controller
+@RequestMapping("/tickets")
+@RequiredArgsConstructor
+@Slf4j
+public class TicketController {
+    
+    private final TicketRepository ticketRepository;
+    private final EmailService emailService;
+    
+    @GetMapping("/raise")
+    public String raiseTicket(Model model) {
+        log.debug("Loading raise ticket page");
+        
+        model.addAttribute("ticketForm", new TicketDTO());
+        model.addAttribute("ticketTypes", TicketType.values());
+        model.addAttribute("priorities", Priority.values());
+        
+        // SEO
+        model.addAttribute("pageTitle", "Raise a Support Ticket | Hash Rate Communications");
+        model.addAttribute("pageDescription", "Submit a support ticket for technical assistance, sales inquiries, or general information. Our team responds within 24 hours.");
+        
+        return "tickets/raise";
+    }
+    
+    @PostMapping("/raise")
+    public String submitTicket(@Valid @ModelAttribute("ticketForm") TicketDTO ticketForm,
+                              BindingResult bindingResult,
+                              Model model,
+                              RedirectAttributes redirectAttributes) {
+        log.debug("Processing ticket submission");
+        
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("ticketTypes", TicketType.values());
+            model.addAttribute("priorities", Priority.values());
+            return "tickets/raise";
+        }
+        
+        try {
+            // Create ticket
+            Ticket ticket = Ticket.builder()
+                    .ticketNumber(generateTicketNumber())
+                    .firstName(ticketForm.getFirstName())
+                    .lastName(ticketForm.getLastName())
+                    .email(ticketForm.getEmail())
+                    .phone(ticketForm.getPhone())
+                    .type(TicketType.valueOf(ticketForm.getType()))
+                    .priority(Priority.valueOf(ticketForm.getPriority()))
+                    .subject(ticketForm.getSubject())
+                    .description(ticketForm.getDescription())
+                    .build();
+            
+            ticket = ticketRepository.save(ticket);
+            
+            // Send email notifications
+            emailService.sendTicketCreatedEmail(ticket);
+            
+            redirectAttributes.addFlashAttribute("ticketNumber", ticket.getTicketNumber());
+            return "redirect:/tickets/success";
+            
+        } catch (Exception e) {
+            log.error("Error creating ticket", e);
+            model.addAttribute("errorMessage", "There was an error creating your ticket. Please try again.");
+            model.addAttribute("ticketTypes", TicketType.values());
+            model.addAttribute("priorities", Priority.values());
+            return "tickets/raise";
+        }
+    }
+    
+    @GetMapping("/success")
+    public String ticketSuccess(Model model) {
+        log.debug("Showing ticket success page");
+        
+        // SEO
+        model.addAttribute("pageTitle", "Ticket Created Successfully | Hash Rate Communications");
+        model.addAttribute("pageDescription", "Your support ticket has been created successfully. Our team will respond within 24 hours.");
+        
+        return "tickets/success";
+    }
+    
+    @GetMapping("/track")
+    public String trackTicket(@RequestParam(required = false) String ticketNumber, Model model) {
+        log.debug("Loading track ticket page");
+        
+        if (ticketNumber != null && !ticketNumber.isEmpty()) {
+            ticketRepository.findByTicketNumber(ticketNumber)
+                    .ifPresent(ticket -> model.addAttribute("ticket", ticket));
+        }
+        
+        // SEO
+        model.addAttribute("pageTitle", "Track Your Support Ticket | Hash Rate Communications");
+        model.addAttribute("pageDescription", "Track the status of your support ticket using your ticket number. Get real-time updates on your request.");
+        
+        return "tickets/track";
+    }
+    
+    private String generateTicketNumber() {
+        return "TKT-" + System.currentTimeMillis() + "-" + UUID.randomUUID().toString().substring(0, 4).toUpperCase();
+    }
+}
