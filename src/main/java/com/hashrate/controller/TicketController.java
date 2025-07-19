@@ -9,6 +9,9 @@ import com.hashrate.service.EmailService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,6 +26,9 @@ import java.util.UUID;
 @Slf4j
 public class TicketController {
     
+	private static final Logger log = LoggerFactory.getLogger(TicketController.class);
+	
+	
     private final TicketRepository ticketRepository;
     private final EmailService emailService;
     

@@ -5,6 +5,9 @@ import com.hashrate.model.Product.ProductCategory;
 import com.hashrate.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -21,6 +24,8 @@ import java.util.List;
 public class ProductController {
 
 	private final ProductService productService;
+	private static final Logger log = LoggerFactory.getLogger(ProductController.class);
+	
 
 	@GetMapping
 	public String index(Model model) {

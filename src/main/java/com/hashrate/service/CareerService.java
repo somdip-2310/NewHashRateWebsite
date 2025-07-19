@@ -25,6 +25,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -34,6 +37,8 @@ public class CareerService {
     private final CareerRepository careerRepository;
     private final EmailService emailService;
     private final SeoService seoService;
+    
+    private static final Logger log = LoggerFactory.getLogger(CareerService.class);
     
     private static final String RESUME_UPLOAD_DIR = "uploads/resumes/";
     

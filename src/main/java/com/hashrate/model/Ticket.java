@@ -1,25 +1,13 @@
 package com.hashrate.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "tickets")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class Ticket {
     
     @Id
@@ -29,22 +17,20 @@ public class Ticket {
     @Column(nullable = false, unique = true)
     private String ticketNumber;
     
-    @NotBlank
     @Column(nullable = false)
-    private String firstName;
+    private String customerName;
     
-    @NotBlank
     @Column(nullable = false)
-    private String lastName;
+    private String customerEmail;
     
-    @Email
-    @NotBlank
     @Column(nullable = false)
-    private String email;
+    private String customerPhone;
     
-    @NotBlank
     @Column(nullable = false)
-    private String phone;
+    private String subject;
+    
+    @Column(columnDefinition = "TEXT")
+    private String description;
     
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -52,18 +38,7 @@ public class Ticket {
     
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Priority priority = Priority.MEDIUM;
-    
-    @Column(nullable = false)
-    private String subject;
-    
-    @Column(columnDefinition = "TEXT", nullable = false)
-    private String description;
-    
-    @ElementCollection
-    @CollectionTable(name = "ticket_attachments", joinColumns = @JoinColumn(name = "ticket_id"))
-    @Column(name = "attachment_url")
-    private List<String> attachments = new ArrayList<>();
+    private TicketPriority priority = TicketPriority.MEDIUM;
     
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -75,11 +50,8 @@ public class Ticket {
     @Column(name = "resolution_notes", columnDefinition = "TEXT")
     private String resolutionNotes;
     
-    @Column(name = "customer_feedback", columnDefinition = "TEXT")
-    private String customerFeedback;
-    
-    @Column(name = "rating")
-    private Integer rating;
+    @Column(name = "resolved_at")
+    private LocalDateTime resolvedAt;
     
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
@@ -89,34 +61,172 @@ public class Ticket {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
     
-    @Column(name = "resolved_at")
-    private LocalDateTime resolvedAt;
-    
-    @Column(name = "closed_at")
-    private LocalDateTime closedAt;
-    
     public enum TicketType {
-        SALES,
-        SUPPORT,
-        INFORMATION,
-        FEEDBACK,
+        TECHNICAL_SUPPORT,
+        BILLING,
+        GENERAL_INQUIRY,
         COMPLAINT,
-        GENERAL
+        FEATURE_REQUEST
     }
     
-    public enum Priority {
+    public enum TicketPriority {
         LOW,
         MEDIUM,
         HIGH,
-        URGENT
+        CRITICAL
     }
     
     public enum TicketStatus {
         OPEN,
         IN_PROGRESS,
-        PENDING_CUSTOMER,
+        WAITING_FOR_CUSTOMER,
         RESOLVED,
-        CLOSED,
-        REOPENED
+        CLOSED
+    }
+
+    // Constructors
+    public Ticket() {}
+
+    public Ticket(Long id, String ticketNumber, String customerName, String customerEmail, 
+                  String customerPhone, String subject, String description, TicketType type, 
+                  TicketPriority priority, TicketStatus status, String assignedTo, 
+                  String resolutionNotes, LocalDateTime resolvedAt, LocalDateTime createdAt, 
+                  LocalDateTime updatedAt) {
+        this.id = id;
+        this.ticketNumber = ticketNumber;
+        this.customerName = customerName;
+        this.customerEmail = customerEmail;
+        this.customerPhone = customerPhone;
+        this.subject = subject;
+        this.description = description;
+        this.type = type;
+        this.priority = priority;
+        this.status = status;
+        this.assignedTo = assignedTo;
+        this.resolutionNotes = resolutionNotes;
+        this.resolvedAt = resolvedAt;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
+    // Getters and Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getTicketNumber() {
+        return ticketNumber;
+    }
+
+    public void setTicketNumber(String ticketNumber) {
+        this.ticketNumber = ticketNumber;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public String getCustomerEmail() {
+        return customerEmail;
+    }
+
+    public void setCustomerEmail(String customerEmail) {
+        this.customerEmail = customerEmail;
+    }
+
+    public String getCustomerPhone() {
+        return customerPhone;
+    }
+
+    public void setCustomerPhone(String customerPhone) {
+        this.customerPhone = customerPhone;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public TicketType getType() {
+        return type;
+    }
+
+    public void setType(TicketType type) {
+        this.type = type;
+    }
+
+    public TicketPriority getPriority() {
+        return priority;
+    }
+
+    public void setPriority(TicketPriority priority) {
+        this.priority = priority;
+    }
+
+    public TicketStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(TicketStatus status) {
+        this.status = status;
+    }
+
+    public String getAssignedTo() {
+        return assignedTo;
+    }
+
+    public void setAssignedTo(String assignedTo) {
+        this.assignedTo = assignedTo;
+    }
+
+    public String getResolutionNotes() {
+        return resolutionNotes;
+    }
+
+    public void setResolutionNotes(String resolutionNotes) {
+        this.resolutionNotes = resolutionNotes;
+    }
+
+    public LocalDateTime getResolvedAt() {
+        return resolvedAt;
+    }
+
+    public void setResolvedAt(LocalDateTime resolvedAt) {
+        this.resolvedAt = resolvedAt;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

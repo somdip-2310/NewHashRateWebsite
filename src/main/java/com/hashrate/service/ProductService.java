@@ -6,6 +6,9 @@ import com.hashrate.repository.ProductRepository;
 import com.hashrate.util.SeoUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,6 +27,8 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final SeoUtils seoUtils;
     private final SeoService seoService;
+    
+    private static final Logger log = LoggerFactory.getLogger(ProductService.class);
     
     @Cacheable(value = "products", key = "#slug")
     public Optional<Product> findBySlug(String slug) {

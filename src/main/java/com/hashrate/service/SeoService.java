@@ -5,6 +5,9 @@ import com.hashrate.util.SeoUtils;
 import com.hashrate.util.SitemapGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -18,6 +21,9 @@ import java.util.List;
 @Slf4j
 public class SeoService {
     
+	private static final Logger log = LoggerFactory.getLogger(SeoService.class);
+    
+	
     private final SeoUtils seoUtils;
     private final SitemapGenerator sitemapGenerator;
     private final ProductService productService;

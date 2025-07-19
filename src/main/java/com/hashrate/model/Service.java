@@ -1,10 +1,6 @@
 package com.hashrate.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -14,10 +10,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "services")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class Service {
     
     @Id
@@ -84,5 +76,160 @@ public class Service {
         HARDWARE_SUPPLY,
         SOFTWARE_SOLUTIONS,
         MAINTENANCE_SUPPORT
+    }
+
+    // Constructors
+    public Service() {}
+
+    public Service(Long id, String slug, String name, String description, 
+                   String shortDescription, ServiceCategory category, String iconClass, 
+                   String imageUrl, List<String> deliverables, List<String> technologies, 
+                   boolean isActive, boolean isFeatured, Integer displayOrder, 
+                   LocalDateTime createdAt, LocalDateTime updatedAt, SeoMetadata seoMetadata) {
+        this.id = id;
+        this.slug = slug;
+        this.name = name;
+        this.description = description;
+        this.shortDescription = shortDescription;
+        this.category = category;
+        this.iconClass = iconClass;
+        this.imageUrl = imageUrl;
+        this.deliverables = deliverables;
+        this.technologies = technologies;
+        this.isActive = isActive;
+        this.isFeatured = isFeatured;
+        this.displayOrder = displayOrder;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.seoMetadata = seoMetadata;
+    }
+
+    // Getters and Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getShortDescription() {
+        return shortDescription;
+    }
+
+    public void setShortDescription(String shortDescription) {
+        this.shortDescription = shortDescription;
+    }
+
+    public ServiceCategory getCategory() {
+        return category;
+    }
+
+    public void setCategory(ServiceCategory category) {
+        this.category = category;
+    }
+
+    public String getIconClass() {
+        return iconClass;
+    }
+
+    public void setIconClass(String iconClass) {
+        this.iconClass = iconClass;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public List<String> getDeliverables() {
+        return deliverables;
+    }
+
+    public void setDeliverables(List<String> deliverables) {
+        this.deliverables = deliverables;
+    }
+
+    public List<String> getTechnologies() {
+        return technologies;
+    }
+
+    public void setTechnologies(List<String> technologies) {
+        this.technologies = technologies;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public boolean isFeatured() {
+        return isFeatured;
+    }
+
+    public void setFeatured(boolean featured) {
+        isFeatured = featured;
+    }
+
+    public Integer getDisplayOrder() {
+        return displayOrder;
+    }
+
+    public void setDisplayOrder(Integer displayOrder) {
+        this.displayOrder = displayOrder;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public SeoMetadata getSeoMetadata() {
+        return seoMetadata;
+    }
+
+    public void setSeoMetadata(SeoMetadata seoMetadata) {
+        this.seoMetadata = seoMetadata;
     }
 }

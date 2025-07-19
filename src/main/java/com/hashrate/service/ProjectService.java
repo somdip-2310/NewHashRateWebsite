@@ -5,6 +5,9 @@ import com.hashrate.model.Project.ProjectCategory;
 import com.hashrate.repository.ProjectRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -22,6 +25,8 @@ import java.util.stream.Collectors;
 @Slf4j
 @Transactional(readOnly = true)
 public class ProjectService {
+    
+	private static final Logger log = LoggerFactory.getLogger(ProjectService.class);
     
     private final ProjectRepository projectRepository;
     private final SeoService seoService;

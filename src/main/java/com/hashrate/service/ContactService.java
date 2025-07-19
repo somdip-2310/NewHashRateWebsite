@@ -8,6 +8,9 @@ import com.hashrate.repository.ContactRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -26,6 +29,8 @@ public class ContactService {
     
     private final ContactRepository contactRepository;
     private final EmailService emailService;
+    
+    private static final Logger log = LoggerFactory.getLogger(ContactService.class);
     
     @Transactional
     public Contact submitContactForm(ContactFormDTO contactFormDTO, HttpServletRequest request) {

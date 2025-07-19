@@ -6,6 +6,9 @@ import com.hashrate.repository.SolutionRepository;
 import com.hashrate.util.SeoUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -22,6 +25,9 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public class SolutionService {
     
+	private static final Logger log = LoggerFactory.getLogger(SolutionService.class);
+    
+	
     private final SolutionRepository solutionRepository;
     private final SeoUtils seoUtils;
     private final SeoService seoService;
