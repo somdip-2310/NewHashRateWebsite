@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -25,17 +26,19 @@ public class ProductService {
     
     private final ProductRepository productRepository;
     private final SeoUtils seoUtils;
-    private final SeoService seoService;
+    
+    // Use Lazy injection to break circular dependency
+    @Lazy
+    @Autowired
+    private SeoService seoService;
     
     private static final Logger log = LoggerFactory.getLogger(ProductService.class);
 
     @Autowired
     public ProductService(ProductRepository productRepository, 
-                         SeoUtils seoUtils, 
-                         SeoService seoService) {
+                         SeoUtils seoUtils) {
         this.productRepository = productRepository;
         this.seoUtils = seoUtils;
-        this.seoService = seoService;
     }
     
     @Cacheable(value = "products", key = "#slug")
@@ -81,8 +84,8 @@ public class ProductService {
             product.setSlug(seoUtils.generateSlug(product.getName()));
         }
         
-        // Generate SEO metadata if not provided
-        if (product.getSeoMetadata() == null) {
+        // Generate SEO metadata if not provided (using lazy-injected service)
+        if (product.getSeoMetadata() == null && seoService != null) {
             product.setSeoMetadata(seoService.generateProductSeoMetadata(product));
         }
         

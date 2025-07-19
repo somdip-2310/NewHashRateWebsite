@@ -1,11 +1,9 @@
 package com.hashrate.service;
 
-import com.hashrate.controller.CareerController;
 import com.hashrate.dto.CareerApplicationDTO;
 import com.hashrate.model.Career;
 import com.hashrate.model.Career.Department;
 import com.hashrate.repository.CareerRepository;
-import com.hashrate.service.EmailService;
 import com.hashrate.util.SeoUtils;
 import lombok.extern.slf4j.Slf4j;
 
@@ -14,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -36,13 +35,18 @@ import java.util.UUID;
 @Transactional(readOnly = true)
 public class CareerService {
 	
-	private static final Logger log = LoggerFactory.getLogger(CareerController.class);
-	
+	private static final Logger log = LoggerFactory.getLogger(CareerService.class);
 	
     private final CareerRepository careerRepository;
     private final SeoUtils seoUtils;
-    private final SeoService seoService;
-    private final EmailService emailService;
+    
+    // Email service temporarily disabled
+    // private final EmailService emailService;
+    
+    // Use Lazy injection to break circular dependency
+    @Lazy
+    @Autowired
+    private SeoService seoService;
 
     @Value("${app.upload.dir:${user.home}/uploads}")
     private String uploadDir;
@@ -52,13 +56,10 @@ public class CareerService {
 
     @Autowired
     public CareerService(CareerRepository careerRepository, 
-                        SeoUtils seoUtils, 
-                        SeoService seoService, 
-                        EmailService emailService) {
+                        SeoUtils seoUtils) {
         this.careerRepository = careerRepository;
         this.seoUtils = seoUtils;
-        this.seoService = seoService;
-        this.emailService = emailService;
+        // this.emailService = emailService; // Temporarily disabled
     }
 
     @Cacheable(value = "careers", key = "'all-active'")
@@ -118,8 +119,8 @@ public class CareerService {
             career.setJobId(generateJobId(career));
         }
 
-        // Generate SEO metadata if not provided
-        if (career.getSeoMetadata() == null) {
+        // Generate SEO metadata if not provided (using lazy-injected service)
+        if (career.getSeoMetadata() == null && seoService != null) {
             career.setSeoMetadata(seoService.generateCareerSeoMetadata(career));
         }
 
@@ -157,8 +158,10 @@ public class CareerService {
             // Save the resume file
             String resumePath = saveResumeFile(resume, applicationForm);
             
-            // Send notification email
-            emailService.sendCareerApplicationEmail(career, applicationForm, resumePath);
+            // Email functionality temporarily disabled
+            // emailService.sendCareerApplicationEmail(career, applicationForm, resumePath);
+            log.info("📄 Resume saved: {}", resumePath);
+            log.info("📧 Email notification disabled - application received for job: {}", jobId);
             
             log.info("Career application processed successfully for job ID: {}", jobId);
             
