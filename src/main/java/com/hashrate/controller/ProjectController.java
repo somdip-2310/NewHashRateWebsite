@@ -2,12 +2,13 @@ package com.hashrate.controller;
 
 import com.hashrate.model.Project;
 import com.hashrate.model.Project.ProjectCategory;
+import com.hashrate.service.ProductService;
 import com.hashrate.service.ProjectService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -21,13 +22,15 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/projects")
-@RequiredArgsConstructor
-@Slf4j
 public class ProjectController {
     
 	private static final Logger log = LoggerFactory.getLogger(ProjectController.class);
 	
     private final ProjectService projectService;
+    @Autowired
+    public ProjectController(ProjectService projectService) {
+        this.projectService = projectService;
+    }
     
     @GetMapping
     public String index(@RequestParam(required = false) ProjectCategory category,

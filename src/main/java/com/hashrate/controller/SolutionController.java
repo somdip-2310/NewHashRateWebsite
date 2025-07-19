@@ -1,12 +1,13 @@
 package com.hashrate.controller;
 
 import com.hashrate.model.Solution;
+import com.hashrate.service.ProductService;
 import com.hashrate.service.SolutionService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,14 +18,16 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/solutions")
-@RequiredArgsConstructor
-@Slf4j
 public class SolutionController {
     
 	private static final Logger log = LoggerFactory.getLogger(SolutionController.class);
 	
 	
     private final SolutionService solutionService;
+    @Autowired
+    public SolutionController(SolutionService solutionService) {
+        this.solutionService = solutionService;
+    }
     
     @GetMapping
     public String index(Model model) {
@@ -118,10 +121,14 @@ public class SolutionController {
     private Solution createDefaultSolution(String slug) {
         // Create a default solution object for display
         // In production, this should redirect to 404
-        return Solution.builder()
-                .slug(slug)
-                .title("Solution")
-                .description("Solution description")
-                .build();
+        Solution solution = new Solution();
+        solution.setSlug(slug);
+        solution.setTitle("Solution");
+        solution.setDescription("Solution description");
+        solution.setShortDescription("Default solution description");
+        solution.setActive(true);
+        solution.setFeatured(false);
+        solution.setDisplayOrder(0);
+        return solution;
     }
 }

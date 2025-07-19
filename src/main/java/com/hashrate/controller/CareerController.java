@@ -4,12 +4,15 @@ import com.hashrate.dto.CareerApplicationDTO;
 import com.hashrate.model.Career;
 import com.hashrate.model.Career.Department;
 import com.hashrate.service.CareerService;
+import com.hashrate.service.ContactService;
+
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -31,6 +34,11 @@ public class CareerController {
 	private static final Logger log = LoggerFactory.getLogger(CareerController.class);
 	
     private final CareerService careerService;
+    
+    @Autowired
+    public CareerController(CareerService careerService) {
+        this.careerService = careerService;
+    }
     
     @GetMapping
     public String index(@RequestParam(required = false) Department department,

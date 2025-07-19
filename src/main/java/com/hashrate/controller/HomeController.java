@@ -1,8 +1,7 @@
 package com.hashrate.controller;
 
 import com.hashrate.service.*;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,19 +10,28 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-@RequiredArgsConstructor
-@Slf4j
 public class HomeController {
-    
-	private static final Logger log = LoggerFactory.getLogger(HomeController.class);
-	
-	
+
+    private static final Logger log = LoggerFactory.getLogger(HomeController.class);
+
     private final ProductService productService;
     private final SolutionService solutionService;
     private final ServiceManagementService serviceManagementService;
     private final ProjectService projectService;
     private final CareerService careerService;
-    
+
+    @Autowired
+    public HomeController(ProductService productService, 
+                         SolutionService solutionService, 
+                         ServiceManagementService serviceManagementService, 
+                         ProjectService projectService, 
+                         CareerService careerService) {
+        this.productService = productService;
+        this.solutionService = solutionService;
+        this.serviceManagementService = serviceManagementService;
+        this.projectService = projectService;
+        this.careerService = careerService;
+    }
     @GetMapping("/")
     public String index(Model model) {
         log.debug("Loading home page");

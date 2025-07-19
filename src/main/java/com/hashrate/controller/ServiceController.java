@@ -1,12 +1,12 @@
 package com.hashrate.controller;
 
 import com.hashrate.model.Service;
+import com.hashrate.service.ProjectService;
 import com.hashrate.service.ServiceManagementService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,13 +17,16 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/services")
-@RequiredArgsConstructor
-@Slf4j
 public class ServiceController {
     
 	private static final Logger log = LoggerFactory.getLogger(ServiceController.class);
 	
 	private final ServiceManagementService serviceManagementService;
+	
+	@Autowired
+    public ServiceController(ServiceManagementService serviceManagementService) {
+        this.serviceManagementService = serviceManagementService;
+    }
     
     @GetMapping
     public String index(Model model) {

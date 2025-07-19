@@ -7,8 +7,7 @@ import com.hashrate.model.Ticket.TicketType;
 import com.hashrate.repository.TicketRepository;
 import com.hashrate.service.EmailService;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,15 +21,18 @@ import java.util.UUID;
 
 @Controller
 @RequestMapping("/tickets")
-@RequiredArgsConstructor
-@Slf4j
 public class TicketController {
     
-	private static final Logger log = LoggerFactory.getLogger(TicketController.class);
-	
-	
+    private static final Logger log = LoggerFactory.getLogger(TicketController.class);
+    
     private final TicketRepository ticketRepository;
     private final EmailService emailService;
+    
+    @Autowired
+    public TicketController(TicketRepository ticketRepository, EmailService emailService) {
+        this.ticketRepository = ticketRepository;
+        this.emailService = emailService;
+    }
     
     @GetMapping("/raise")
     public String raiseTicket(Model model) {
@@ -56,23 +58,21 @@ public class TicketController {
         
         if (bindingResult.hasErrors()) {
             model.addAttribute("ticketTypes", TicketType.values());
-            model.addAttribute("priorities", Priority.values());
+            model.addAttribute("priorities", TicketPriority.values());
             return "tickets/raise";
         }
         
         try {
             // Create ticket
-            Ticket ticket = Ticket.builder()
-                    .ticketNumber(generateTicketNumber())
-                    .firstName(ticketForm.getFirstName())
-                    .lastName(ticketForm.getLastName())
-                    .email(ticketForm.getEmail())
-                    .phone(ticketForm.getPhone())
-                    .type(TicketType.valueOf(ticketForm.getType()))
-                    .priority(Priority.valueOf(ticketForm.getPriority()))
-                    .subject(ticketForm.getSubject())
-                    .description(ticketForm.getDescription())
-                    .build();
+            Ticket ticket = new Ticket();
+            ticket.setTicketNumber(generateTicketNumber());
+            ticket.setCustomerName(ticketForm.getCustomerName());
+            ticket.setCustomerEmail(ticketForm.getCustomerEmail());
+            ticket.setCustomerPhone(ticketForm.getCustomerPhone());
+            ticket.setSubject(ticketForm.getSubject());
+            ticket.setDescription(ticketForm.getDescription());
+            ticket.setType(ticketForm.getType());
+            ticket.setPriority(ticketForm.getPriority());
             
             ticket = ticketRepository.save(ticket);
             
@@ -86,7 +86,7 @@ public class TicketController {
             log.error("Error creating ticket", e);
             model.addAttribute("errorMessage", "There was an error creating your ticket. Please try again.");
             model.addAttribute("ticketTypes", TicketType.values());
-            model.addAttribute("priorities", Priority.values());
+            model.addAttribute("priorities", TicketPriority.values());
             return "tickets/raise";
         }
     }
