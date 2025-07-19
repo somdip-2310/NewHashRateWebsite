@@ -24,6 +24,7 @@ import java.util.List;
 public class ProductController {
 
 	private final ProductService productService;
+	
 	private static final Logger log = LoggerFactory.getLogger(ProductController.class);
 	
 

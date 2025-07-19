@@ -7,6 +7,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import com.hashrate.model.Ticket.TicketType;
+import com.hashrate.model.Ticket.TicketPriority;
 
 public class TicketDTO {
     

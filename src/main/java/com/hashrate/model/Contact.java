@@ -2,6 +2,7 @@ package com.hashrate.model;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -13,8 +14,11 @@ public class Contact {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(nullable = false)
-    private String name;
+    @Column(name = "first_name", nullable = false)
+    private String firstName;
+    
+    @Column(name = "last_name", nullable = false)
+    private String lastName;
     
     @Column(nullable = false)
     private String email;
@@ -22,48 +26,46 @@ public class Contact {
     @Column(nullable = false)
     private String phone;
     
-    @Column(nullable = false)
-    private String company;
+    @Column(name = "company_name")
+    private String companyName;
     
-    @Enumerated(EnumType.STRING)
-    private Industry industry;
+    @Column(nullable = false)
+    private String subject;
     
     @Column(columnDefinition = "TEXT")
     private String message;
     
-    @Column(name = "ip_address")
-    private String ipAddress;
-    
-    @Column(name = "user_agent", columnDefinition = "TEXT")
-    private String userAgent;
+    @Enumerated(EnumType.STRING)
+    private ContactType contactType = ContactType.GENERAL;
     
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private ContactStatus status = ContactStatus.NEW;
+    
+    @Column(name = "response_notes", columnDefinition = "TEXT")
+    private String responseNotes;
+    
+    @Column(name = "responded_at")
+    private LocalDateTime respondedAt;
     
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
     
-    @Column(name = "responded_at")
-    private LocalDateTime respondedAt;
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
     
-    @Column(name = "response_notes", columnDefinition = "TEXT")
-    private String responseNotes;
-    
-    public enum Industry {
-        AIRPORT_METRO,
-        BFSI,
-        GOVERNMENT,
-        OIL_GAS_MFG,
-        DATACENTER,
-        COMMERCIAL,
-        OTHER
+    public enum ContactType {
+        GENERAL,
+        SALES,
+        SUPPORT,
+        PARTNERSHIP,
+        CAREER
     }
     
     public enum ContactStatus {
         NEW,
-        IN_PROGRESS,
+        CONTACTED,
         RESPONDED,
         CLOSED
     }
@@ -71,127 +73,43 @@ public class Contact {
     // Constructors
     public Contact() {}
 
-    public Contact(Long id, String name, String email, String phone, String company, 
-                   Industry industry, String message, String ipAddress, String userAgent, 
-                   ContactStatus status, LocalDateTime createdAt, LocalDateTime respondedAt, 
-                   String responseNotes) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.phone = phone;
-        this.company = company;
-        this.industry = industry;
-        this.message = message;
-        this.ipAddress = ipAddress;
-        this.userAgent = userAgent;
-        this.status = status;
-        this.createdAt = createdAt;
-        this.respondedAt = respondedAt;
-        this.responseNotes = responseNotes;
-    }
-
     // Getters and Setters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getCompany() {
-        return company;
-    }
-
-    public void setCompany(String company) {
-        this.company = company;
-    }
-
-    public Industry getIndustry() {
-        return industry;
-    }
-
-    public void setIndustry(Industry industry) {
-        this.industry = industry;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public String getIpAddress() {
-        return ipAddress;
-    }
-
-    public void setIpAddress(String ipAddress) {
-        this.ipAddress = ipAddress;
-    }
-
-    public String getUserAgent() {
-        return userAgent;
-    }
-
-    public void setUserAgent(String userAgent) {
-        this.userAgent = userAgent;
-    }
-
-    public ContactStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(ContactStatus status) {
-        this.status = status;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getRespondedAt() {
-        return respondedAt;
-    }
-
-    public void setRespondedAt(LocalDateTime respondedAt) {
-        this.respondedAt = respondedAt;
-    }
-
-    public String getResponseNotes() {
-        return responseNotes;
-    }
-
-    public void setResponseNotes(String responseNotes) {
-        this.responseNotes = responseNotes;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    
+    public String getFirstName() { return firstName; }
+    public void setFirstName(String firstName) { this.firstName = firstName; }
+    
+    public String getLastName() { return lastName; }
+    public void setLastName(String lastName) { this.lastName = lastName; }
+    
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+    
+    public String getPhone() { return phone; }
+    public void setPhone(String phone) { this.phone = phone; }
+    
+    public String getCompanyName() { return companyName; }
+    public void setCompanyName(String companyName) { this.companyName = companyName; }
+    
+    public String getSubject() { return subject; }
+    public void setSubject(String subject) { this.subject = subject; }
+    
+    public String getMessage() { return message; }
+    public void setMessage(String message) { this.message = message; }
+    
+    public ContactType getContactType() { return contactType; }
+    public void setContactType(ContactType contactType) { this.contactType = contactType; }
+    
+    public ContactStatus getStatus() { return status; }
+    public void setStatus(ContactStatus status) { this.status = status; }
+    
+    public String getResponseNotes() { return responseNotes; }
+    public void setResponseNotes(String responseNotes) { this.responseNotes = responseNotes; }
+    
+    public LocalDateTime getRespondedAt() { return respondedAt; }
+    public void setRespondedAt(LocalDateTime respondedAt) { this.respondedAt = respondedAt; }
+    
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public LocalDateTime getUpdatedAt() { return updatedAt; }
 }

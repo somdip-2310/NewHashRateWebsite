@@ -1,10 +1,6 @@
 package com.hashrate.repository;
 
 import com.hashrate.model.Contact;
-import com.hashrate.model.Contact.ContactStatus;
-import com.hashrate.model.Contact.Industry;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,40 +12,25 @@ import java.util.List;
 @Repository
 public interface ContactRepository extends JpaRepository<Contact, Long> {
     
-    Page<Contact> findByStatus(ContactStatus status, Pageable pageable);
+    @Query("SELECT c FROM Contact c ORDER BY c.createdAt DESC")
+    List<Contact> findAllOrderByCreatedAtDesc();
     
-    Page<Contact> findByIndustry(Industry industry, Pageable pageable);
+    List<Contact> findByStatusOrderByCreatedAtDesc(Contact.ContactStatus status);
     
-    Page<Contact> findByAssignedTo(String assignedTo, Pageable pageable);
+    @Query("SELECT c FROM Contact c WHERE c.createdAt >= :startDate ORDER BY c.createdAt DESC")
+    List<Contact> findByCreatedAtAfterOrderByCreatedAtDesc(@Param("startDate") LocalDateTime startDate);
     
-    @Query("SELECT c FROM Contact c WHERE " +
-           "LOWER(c.firstName) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
-           "LOWER(c.lastName) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
-           "LOWER(c.email) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
-           "LOWER(c.company) LIKE LOWER(CONCAT('%', :keyword, '%'))")
-    Page<Contact> searchContacts(@Param("keyword") String keyword, Pageable pageable);
+    @Query("SELECT c FROM Contact c ORDER BY c.createdAt DESC LIMIT :limit")
+    List<Contact> findTopNOrderByCreatedAtDesc(@Param("limit") int limit);
     
-    List<Contact> findByCreatedAtBetween(LocalDateTime startDate, LocalDateTime endDate);
+    long countByStatus(Contact.ContactStatus status);
     
-    List<Contact> findByStatusAndCreatedAtBefore(ContactStatus status, LocalDateTime date);
+    @Query("SELECT COUNT(c) FROM Contact c WHERE c.createdAt >= :startDate")
+    long countByCreatedAtAfter(@Param("startDate") LocalDateTime startDate);
     
-    @Query("SELECT c FROM Contact c WHERE c.status = :status ORDER BY c.createdAt DESC")
-    Page<Contact> findByStatusOrderByCreatedAtDesc(@Param("status") ContactStatus status, Pageable pageable);
+    @Query("SELECT c FROM Contact c WHERE LOWER(c.email) = LOWER(:email) ORDER BY c.createdAt DESC")
+    List<Contact> findByEmailIgnoreCaseOrderByCreatedAtDesc(@Param("email") String email);
     
-    @Query("SELECT COUNT(c) FROM Contact c WHERE c.status = :status")
-    long countByStatus(@Param("status") ContactStatus status);
-    
-    @Query("SELECT c.industry, COUNT(c) FROM Contact c GROUP BY c.industry")
-    List<Object[]> countByIndustryGrouped();
-    
-    @Query("SELECT DATE(c.createdAt), COUNT(c) FROM Contact c " +
-           "WHERE c.createdAt BETWEEN :startDate AND :endDate " +
-           "GROUP BY DATE(c.createdAt) ORDER BY DATE(c.createdAt)")
-    List<Object[]> getContactStatsByDateRange(@Param("startDate") LocalDateTime startDate, 
-                                              @Param("endDate") LocalDateTime endDate);
-    
-    @Query("SELECT c FROM Contact c WHERE c.status = 'NEW' ORDER BY c.createdAt ASC")
-    List<Contact> findUnassignedContacts();
-    
-    boolean existsByEmailAndCreatedAtAfter(String email, LocalDateTime date);
+    @Query("SELECT c FROM Contact c WHERE c.contactType = :contactType ORDER BY c.createdAt DESC")
+    List<Contact> findByContactTypeOrderByCreatedAtDesc(@Param("contactType") Contact.ContactType contactType);
 }

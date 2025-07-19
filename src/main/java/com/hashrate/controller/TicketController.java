@@ -2,7 +2,7 @@ package com.hashrate.controller;
 
 import com.hashrate.dto.TicketDTO;
 import com.hashrate.model.Ticket;
-import com.hashrate.model.Ticket.Priority;
+import com.hashrate.model.Ticket.TicketPriority;
 import com.hashrate.model.Ticket.TicketType;
 import com.hashrate.repository.TicketRepository;
 import com.hashrate.service.EmailService;
@@ -38,7 +38,7 @@ public class TicketController {
         
         model.addAttribute("ticketForm", new TicketDTO());
         model.addAttribute("ticketTypes", TicketType.values());
-        model.addAttribute("priorities", Priority.values());
+        model.addAttribute("priorities", TicketPriority.values());
         
         // SEO
         model.addAttribute("pageTitle", "Raise a Support Ticket | Hash Rate Communications");

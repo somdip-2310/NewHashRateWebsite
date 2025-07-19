@@ -1,8 +1,10 @@
 package com.hashrate.controller;
 
-import com.hashrate.dto.ContactFormDTO;
+import com.hashrate.dto.ContactDTO;
+import com.hashrate.model.Contact;
 import com.hashrate.service.ContactService;
-import jakarta.servlet.http.HttpServletRequest;
+import com.hashrate.service.ServiceManagementService;
+
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,10 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -25,44 +24,55 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class ContactController {
     
 	private static final Logger log = LoggerFactory.getLogger(ContactController.class);
-	
-	
+    
     private final ContactService contactService;
     
     @GetMapping
     public String contact(Model model) {
         log.debug("Loading contact page");
         
-        model.addAttribute("contactForm", new ContactFormDTO());
+        model.addAttribute("contactForm", new ContactDTO());
         
         // SEO
-        model.addAttribute("pageTitle", "Contact Us - Get in Touch | Hash Rate Communications");
-        model.addAttribute("pageDescription", "Contact Hash Rate Communications for DCIM, iBMS, PLC & SCADA solutions. Located in Navi Mumbai, serving clients across India. Call +91 9137455975.");
+        model.addAttribute("pageTitle", "Contact Us - Hash Rate Communications");
+        model.addAttribute("pageDescription", "Get in touch with Hash Rate Communications for your technology needs. Multiple locations across India.");
         
         return "contact/contact";
     }
     
     @PostMapping
-    public String submitContact(@Valid @ModelAttribute("contactForm") ContactFormDTO contactForm,
+    public String submitContact(@Valid @ModelAttribute("contactForm") ContactDTO contactDTO,
                                BindingResult bindingResult,
-                               HttpServletRequest request,
                                Model model,
                                RedirectAttributes redirectAttributes) {
-        log.debug("Processing contact form submission");
         
         if (bindingResult.hasErrors()) {
+            log.warn("Contact form validation errors: {}", bindingResult.getAllErrors());
+            
+            // SEO
+            model.addAttribute("pageTitle", "Contact Us - Hash Rate Communications");
+            model.addAttribute("pageDescription", "Get in touch with Hash Rate Communications for your technology needs. Multiple locations across India.");
+            
             return "contact/contact";
         }
         
         try {
-            contactService.submitContactForm(contactForm, request);
+            Contact contact = contactService.saveContact(contactDTO);
+            log.info("Contact form submitted successfully: {}", contact.getEmail());
+            
             redirectAttributes.addFlashAttribute("successMessage", 
-                    "Thank you for contacting us! We will get back to you within 24 hours.");
+                "Thank you for contacting us! We'll get back to you within 24 hours.");
+            
             return "redirect:/contact/success";
+            
         } catch (Exception e) {
             log.error("Error processing contact form", e);
+            
             model.addAttribute("errorMessage", 
-                    "There was an error processing your request. Please try again later.");
+                "Sorry, there was an error processing your request. Please try again.");
+            model.addAttribute("pageTitle", "Contact Us - Hash Rate Communications");
+            model.addAttribute("pageDescription", "Get in touch with Hash Rate Communications for your technology needs. Multiple locations across India.");
+            
             return "contact/contact";
         }
     }
@@ -72,8 +82,8 @@ public class ContactController {
         log.debug("Showing contact success page");
         
         // SEO
-        model.addAttribute("pageTitle", "Thank You - Message Sent Successfully | Hash Rate Communications");
-        model.addAttribute("pageDescription", "Your message has been sent successfully. Our team will review it and get back to you within 24 hours.");
+        model.addAttribute("pageTitle", "Message Sent Successfully | Hash Rate Communications");
+        model.addAttribute("pageDescription", "Your message has been sent successfully. Our team will respond within 24 hours.");
         
         return "contact/success";
     }

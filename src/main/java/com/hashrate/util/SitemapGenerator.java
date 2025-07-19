@@ -38,68 +38,46 @@ public class SitemapGenerator {
             }
             
             if (entry.getPriority() != null) {
-                writer.write("    <priority>" + entry.getPriority() + "</priority>\n");
+            	writer.write("    <priority>" + entry.getPriority() + "</priority>\n");
             }
             
             writer.write("  </url>\n");
         }
         
         writer.write("</urlset>");
-        
         return writer.toString();
     }
-    
-    public String generateSitemapIndex(List<String> sitemapUrls) {
-        StringWriter writer = new StringWriter();
-        
-        writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-        writer.write("<sitemapindex xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n");
-        
-        for (String sitemapUrl : sitemapUrls) {
-            writer.write("  <sitemap>\n");
-            writer.write("    <loc>" + escapeXml(baseUrl + sitemapUrl) + "</loc>\n");
-            writer.write("    <lastmod>" + LocalDateTime.now().format(DATE_FORMATTER) + "</lastmod>\n");
-            writer.write("  </sitemap>\n");
-        }
-        
-        writer.write("</sitemapindex>");
-        
-        return writer.toString();
-    }
-    
-    private String escapeXml(String text) {
-        if (text == null) {
-            return "";
-        }
-        
-        return text.replace("&", "&amp;")
-                   .replace("<", "&lt;")
-                   .replace(">", "&gt;")
-                   .replace("\"", "&quot;")
-                   .replace("'", "&apos;");
-    }
-    
+
     public List<SitemapEntry> generateDefaultEntries() {
         List<SitemapEntry> entries = new ArrayList<>();
         
-        // Static pages
+        // Add static pages
         entries.add(new SitemapEntry("/", LocalDateTime.now(), "daily", 1.0));
+        entries.add(new SitemapEntry("/about", LocalDateTime.now(), "monthly", 0.8));
         entries.add(new SitemapEntry("/products", LocalDateTime.now(), "weekly", 0.9));
         entries.add(new SitemapEntry("/solutions", LocalDateTime.now(), "weekly", 0.9));
-        entries.add(new SitemapEntry("/services", LocalDateTime.now(), "weekly", 0.8));
-        entries.add(new SitemapEntry("/projects", LocalDateTime.now(), "monthly", 0.7));
-        entries.add(new SitemapEntry("/careers", LocalDateTime.now(), "weekly", 0.8));
+        entries.add(new SitemapEntry("/services", LocalDateTime.now(), "weekly", 0.9));
+        entries.add(new SitemapEntry("/projects", LocalDateTime.now(), "weekly", 0.8));
+        entries.add(new SitemapEntry("/careers", LocalDateTime.now(), "daily", 0.7));
         entries.add(new SitemapEntry("/contact", LocalDateTime.now(), "monthly", 0.6));
-        entries.add(new SitemapEntry("/about", LocalDateTime.now(), "monthly", 0.6));
         
         return entries;
     }
-    
+
+    private String escapeXml(String input) {
+        if (input == null) return null;
+        return input.replace("&", "&amp;")
+               .replace("<", "&lt;")
+               .replace(">", "&gt;")
+               .replace("\"", "&quot;")
+               .replace("'", "&apos;");
+    }
+
     public static class SitemapEntry {
-        private final String path;
-        private final LocalDateTime lastModified;
-        private final String changeFrequency;
-        private final Double priority;
+        private String path;
+        private LocalDateTime lastModified;
+        private String changeFrequency;
+        private Double priority;
         
         public SitemapEntry(String path, LocalDateTime lastModified, String changeFrequency, Double priority) {
             this.path = path;

@@ -2,24 +2,16 @@ package com.hashrate.service;
 
 import com.hashrate.dto.ContactFormDTO;
 import com.hashrate.model.Contact;
-import com.hashrate.model.Contact.ContactStatus;
-import com.hashrate.model.Contact.Industry;
 import com.hashrate.repository.ContactRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -30,149 +22,79 @@ public class ContactService {
     private final ContactRepository contactRepository;
     private final EmailService emailService;
     
-    private static final Logger log = LoggerFactory.getLogger(ContactService.class);
-    
     @Transactional
-    public Contact submitContactForm(ContactFormDTO contactFormDTO, HttpServletRequest request) {
-        log.info("Processing contact form submission from: {}", contactFormDTO.getEmail());
+    public Contact submitContactForm(ContactFormDTO contactForm, HttpServletRequest request) {
+        log.info("Processing contact form submission from: {}", contactForm.getEmail());
         
-        // Check for spam (honeypot field)
-        if (contactFormDTO.getHoneypot() != null && !contactFormDTO.getHoneypot().isEmpty()) {
-            log.warn("Potential spam detected from: {}", contactFormDTO.getEmail());
-            throw new RuntimeException("Invalid submission");
-        }
-        
-        // Check for duplicate submissions
-        if (isDuplicateSubmission(contactFormDTO.getEmail())) {
-            log.warn("Duplicate submission detected from: {}", contactFormDTO.getEmail());
-            throw new RuntimeException("Please wait before submitting again");
-        }
-        
-        // Create contact entity
-        Contact contact = Contact.builder()
-                .firstName(contactFormDTO.getFirstName())
-                .lastName(contactFormDTO.getLastName())
-                .email(contactFormDTO.getEmail())
-                .phone(contactFormDTO.getPhone())
-                .company(contactFormDTO.getCompany())
-                .industry(Industry.valueOf(contactFormDTO.getIndustry()))
-                .message(contactFormDTO.getMessage())
-                .projectDetails(contactFormDTO.getProjectDetails())
-                .status(ContactStatus.NEW)
-                .ipAddress(getClientIpAddress(request))
-                .userAgent(request.getHeader("User-Agent"))
-                .build();
+        // Convert DTO to Entity
+        Contact contact = new Contact();
+        contact.setFirstName(contactForm.getFirstName());
+        contact.setLastName(contactForm.getLastName());
+        contact.setEmail(contactForm.getEmail());
+        contact.setPhone(contactForm.getPhone());
+        contact.setCompanyName(contactForm.getCompanyName());
+        contact.setSubject(contactForm.getSubject());
+        contact.setMessage(contactForm.getMessage());
+        contact.setContactType(Contact.ContactType.valueOf(contactForm.getContactType()));
+        contact.setStatus(Contact.ContactStatus.NEW);
         
         // Save contact
-        contact = contactRepository.save(contact);
+        Contact savedContact = contactRepository.save(contact);
         
-        // Send email notifications
-        emailService.sendContactFormNotification(contact);
-        emailService.sendContactFormConfirmation(contact);
-        
-        log.info("Contact form processed successfully with id: {}", contact.getId());
-        
-        return contact;
-    }
-    
-    private boolean isDuplicateSubmission(String email) {
-        // Check if same email submitted in last 5 minutes
-        LocalDateTime fiveMinutesAgo = LocalDateTime.now().minusMinutes(5);
-        return contactRepository.existsByEmailAndCreatedAtAfter(email, fiveMinutesAgo);
-    }
-    
-    private String getClientIpAddress(HttpServletRequest request) {
-        String xForwardedForHeader = request.getHeader("X-Forwarded-For");
-        if (xForwardedForHeader != null) {
-            return xForwardedForHeader.split(",")[0];
+        // Send notification emails
+        try {
+            emailService.sendContactFormNotification(savedContact);
+            emailService.sendContactFormConfirmation(savedContact);
+            log.info("Contact form emails sent successfully for: {}", savedContact.getEmail());
+        } catch (Exception e) {
+            log.error("Failed to send contact form emails", e);
+            // Don't fail the whole operation if emails fail
         }
         
-        String xRealIpHeader = request.getHeader("X-Real-IP");
-        if (xRealIpHeader != null) {
-            return xRealIpHeader;
-        }
-        
-        return request.getRemoteAddr();
+        return savedContact;
     }
     
-    public Page<Contact> findAll(Pageable pageable) {
-        log.debug("Finding all contacts with pagination");
-        return contactRepository.findAll(pageable);
+    public List<Contact> findAllContacts() {
+        log.debug("Finding all contacts");
+        return contactRepository.findAllOrderByCreatedAtDesc();
     }
     
-    public Page<Contact> findByStatus(ContactStatus status, Pageable pageable) {
+    public List<Contact> findContactsByStatus(Contact.ContactStatus status) {
         log.debug("Finding contacts by status: {}", status);
-        return contactRepository.findByStatusOrderByCreatedAtDesc(status, pageable);
+        return contactRepository.findByStatusOrderByCreatedAtDesc(status);
     }
     
-    public Page<Contact> searchContacts(String keyword, Pageable pageable) {
-        log.debug("Searching contacts with keyword: {}", keyword);
-        return contactRepository.searchContacts(keyword, pageable);
-    }
-    
-    public List<Contact> findUnassigned() {
-        log.debug("Finding unassigned contacts");
-        return contactRepository.findUnassignedContacts();
+    public Optional<Contact> findById(Long id) {
+        return contactRepository.findById(id);
     }
     
     @Transactional
-    public Contact updateStatus(Long id, ContactStatus status, String notes) {
-        log.info("Updating contact {} status to: {}", id, status);
+    public Contact updateContactStatus(Long id, Contact.ContactStatus status, String responseNotes) {
+        log.info("Updating contact status for id: {} to status: {}", id, status);
         
         Contact contact = contactRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Contact not found with id: " + id));
         
         contact.setStatus(status);
-        contact.setNotes(notes);
+        contact.setResponseNotes(responseNotes);
         
-        if (status == ContactStatus.RESPONDED) {
+        if (status == Contact.ContactStatus.RESPONDED) {
             contact.setRespondedAt(LocalDateTime.now());
         }
         
         return contactRepository.save(contact);
     }
     
-    @Transactional
-    public Contact assignTo(Long id, String assignedTo) {
-        log.info("Assigning contact {} to: {}", id, assignedTo);
-        
-        Contact contact = contactRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Contact not found with id: " + id));
-        
-        contact.setAssignedTo(assignedTo);
-        contact.setStatus(ContactStatus.IN_PROGRESS);
-        
-        return contactRepository.save(contact);
+    public long countNewContacts() {
+        return contactRepository.countByStatus(Contact.ContactStatus.NEW);
     }
     
-    public Map<ContactStatus, Long> getStatusStatistics() {
-        log.debug("Getting contact status statistics");
-        return contactRepository.findAll()
-                .stream()
-                .collect(Collectors.groupingBy(Contact::getStatus, Collectors.counting()));
+    public long countTotalContacts() {
+        return contactRepository.count();
     }
     
-    public List<Object[]> getContactStatsByDateRange(LocalDateTime startDate, LocalDateTime endDate) {
-        log.debug("Getting contact statistics between {} and {}", startDate, endDate);
-        return contactRepository.getContactStatsByDateRange(startDate, endDate);
-    }
-    
-    public List<Object[]> getIndustryStatistics() {
-        log.debug("Getting contact industry statistics");
-        return contactRepository.countByIndustryGrouped();
-    }
-    
-    @Transactional
-    public void cleanupOldContacts() {
-        log.info("Cleaning up old spam contacts");
-        
-        // Delete spam contacts older than 30 days
-        LocalDateTime thirtyDaysAgo = LocalDateTime.now().minusDays(30);
-        List<Contact> oldSpamContacts = contactRepository.findByStatusAndCreatedAtBefore(
-                ContactStatus.SPAM, thirtyDaysAgo);
-        
-        contactRepository.deleteAll(oldSpamContacts);
-        
-        log.info("Deleted {} old spam contacts", oldSpamContacts.size());
+    public List<Contact> findRecentContacts(int limit) {
+        log.debug("Finding {} recent contacts", limit);
+        return contactRepository.findTopNOrderByCreatedAtDesc(limit);
     }
 }

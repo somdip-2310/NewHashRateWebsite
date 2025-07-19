@@ -15,7 +15,8 @@ import java.util.List;
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Long> {
     
-    List<Project> findByIsActiveTrue();
+    @Query("SELECT p FROM Project p WHERE p.isActive = true ORDER BY p.displayOrder ASC, p.completionDate DESC")
+    List<Project> findAllActiveOrderByDisplayOrderAndDate();
     
     List<Project> findByIsActiveTrueAndIsFeaturedTrue();
     
@@ -26,27 +27,39 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
     Page<Project> findByCategoryAndIsActiveTrue(ProjectCategory category, Pageable pageable);
     
     @Query("SELECT p FROM Project p WHERE p.isActive = true AND " +
-           "(LOWER(p.clientName) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
-           "LOWER(p.projectName) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+           "(LOWER(p.projectName) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+           "LOWER(p.clientName) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
            "LOWER(p.description) LIKE LOWER(CONCAT('%', :keyword, '%')))")
     Page<Project> searchProjects(@Param("keyword") String keyword, Pageable pageable);
     
-    @Query("SELECT p FROM Project p WHERE p.isActive = true ORDER BY p.displayOrder ASC, p.completionDate DESC")
-    List<Project> findAllActiveOrderByDisplayOrderAndDate();
-    
     @Query("SELECT p FROM Project p WHERE p.isActive = true AND p.isFeatured = true " +
-           "ORDER BY p.completionDate DESC LIMIT :limit")
+           "ORDER BY p.displayOrder ASC, p.completionDate DESC LIMIT :limit")
     List<Project> findTopFeaturedProjects(@Param("limit") int limit);
-    
-    List<Project> findByCompletionDateBetweenAndIsActiveTrue(LocalDateTime startDate, LocalDateTime endDate);
     
     @Query("SELECT DISTINCT p.clientName FROM Project p WHERE p.isActive = true ORDER BY p.clientName")
     List<String> findAllActiveClientNames();
     
-    @Query("SELECT COUNT(DISTINCT p.clientName) FROM Project p WHERE p.isActive = true")
-    long countDistinctClients();
+    List<Project> findByCompletionDateBetweenAndIsActiveTrue(LocalDateTime startDate, LocalDateTime endDate);
     
     long countByIsActiveTrue();
     
+    @Query("SELECT COUNT(DISTINCT p.clientName) FROM Project p WHERE p.isActive = true")
+    long countDistinctClients();
+    
     long countByCategoryAndIsActiveTrue(ProjectCategory category);
+    
+    @Query("SELECT p FROM Project p WHERE p.isActive = true AND p.completionDate >= :fromDate ORDER BY p.completionDate DESC")
+    List<Project> findRecentProjects(@Param("fromDate") LocalDateTime fromDate);
+    
+    @Query("SELECT p FROM Project p WHERE p.isActive = true AND p.clientName = :clientName ORDER BY p.completionDate DESC")
+    List<Project> findByClientNameAndIsActiveTrue(@Param("clientName") String clientName);
+    
+    @Query("SELECT p FROM Project p WHERE p.isActive = true AND p.location LIKE %:location% ORDER BY p.completionDate DESC")
+    List<Project> findByLocationContainingAndIsActiveTrue(@Param("location") String location);
+    
+    @Query("SELECT DISTINCT p.location FROM Project p WHERE p.isActive = true AND p.location IS NOT NULL ORDER BY p.location")
+    List<String> findDistinctLocations();
+    
+    @Query("SELECT COUNT(p) FROM Project p WHERE p.isActive = true AND p.completionDate >= :fromDate")
+    long countCompletedProjectsSince(@Param("fromDate") LocalDateTime fromDate);
 }
