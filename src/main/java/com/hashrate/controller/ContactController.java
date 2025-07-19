@@ -1,10 +1,11 @@
 package com.hashrate.controller;
 
-import com.hashrate.dto.ContactDTO;
+import com.hashrate.dto.ContactFormDTO;
 import com.hashrate.model.Contact;
 import com.hashrate.service.ContactService;
 import com.hashrate.service.ServiceManagementService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -19,74 +20,75 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping("/contact")
 public class ContactController {
-    
-	private static final Logger log = LoggerFactory.getLogger(ContactController.class);
-    
+
+    private static final Logger log = LoggerFactory.getLogger(ContactController.class);
+
     private final ContactService contactService;
-    
+
     @Autowired
     public ContactController(ContactService contactService) {
         this.contactService = contactService;
     }
-    
+
     @GetMapping
     public String contact(Model model) {
         log.debug("Loading contact page");
-        
-        model.addAttribute("contactForm", new ContactDTO());
-        
+
+        model.addAttribute("contactForm", new ContactFormDTO());
+
         // SEO
         model.addAttribute("pageTitle", "Contact Us - Hash Rate Communications");
         model.addAttribute("pageDescription", "Get in touch with Hash Rate Communications for your technology needs. Multiple locations across India.");
-        
+
         return "contact/contact";
     }
-    
+
     @PostMapping
-    public String submitContact(@Valid @ModelAttribute("contactForm") ContactDTO contactDTO,
+    public String submitContact(@Valid @ModelAttribute("contactForm") ContactFormDTO contactFormDTO,
                                BindingResult bindingResult,
                                Model model,
-                               RedirectAttributes redirectAttributes) {
-        
+                               RedirectAttributes redirectAttributes,
+                               HttpServletRequest request) {
+
         if (bindingResult.hasErrors()) {
             log.warn("Contact form validation errors: {}", bindingResult.getAllErrors());
-            
+
             // SEO
             model.addAttribute("pageTitle", "Contact Us - Hash Rate Communications");
             model.addAttribute("pageDescription", "Get in touch with Hash Rate Communications for your technology needs. Multiple locations across India.");
-            
+
             return "contact/contact";
         }
-        
+
         try {
-            Contact contact = contactService.saveContact(contactDTO);
+            Contact contact = contactService.submitContactForm(contactFormDTO, request);
             log.info("Contact form submitted successfully: {}", contact.getEmail());
-            
-            redirectAttributes.addFlashAttribute("successMessage", 
+
+            redirectAttributes.addFlashAttribute("successMessage",
                 "Thank you for contacting us! We'll get back to you within 24 hours.");
-            
+
             return "redirect:/contact/success";
-            
+
         } catch (Exception e) {
             log.error("Error processing contact form", e);
-            
-            model.addAttribute("errorMessage", 
+
+            model.addAttribute("errorMessage",
                 "Sorry, there was an error processing your request. Please try again.");
             model.addAttribute("pageTitle", "Contact Us - Hash Rate Communications");
             model.addAttribute("pageDescription", "Get in touch with Hash Rate Communications for your technology needs. Multiple locations across India.");
-            
+
             return "contact/contact";
         }
     }
-    
+
     @GetMapping("/success")
     public String contactSuccess(Model model) {
         log.debug("Showing contact success page");
-        
+
         // SEO
         model.addAttribute("pageTitle", "Message Sent Successfully | Hash Rate Communications");
         model.addAttribute("pageDescription", "Your message has been sent successfully. Our team will respond within 24 hours.");
-        
+
         return "contact/success";
     }
 }

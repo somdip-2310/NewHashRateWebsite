@@ -4,11 +4,11 @@ import com.hashrate.model.Solution;
 import com.hashrate.model.Solution.SolutionType;
 import com.hashrate.repository.SolutionRepository;
 import com.hashrate.util.SeoUtils;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -20,17 +20,24 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 @Slf4j
 @Transactional(readOnly = true)
 public class SolutionService {
     
-	private static final Logger log = LoggerFactory.getLogger(SolutionService.class);
+    private static final Logger log = LoggerFactory.getLogger(SolutionService.class);
     
-	
     private final SolutionRepository solutionRepository;
     private final SeoUtils seoUtils;
     private final SeoService seoService;
+
+    @Autowired
+    public SolutionService(SolutionRepository solutionRepository,
+                          SeoUtils seoUtils,
+                          SeoService seoService) {
+        this.solutionRepository = solutionRepository;
+        this.seoUtils = seoUtils;
+        this.seoService = seoService;
+    }
     
     @Cacheable(value = "solutions", key = "#slug")
     public Optional<Solution> findBySlug(String slug) {

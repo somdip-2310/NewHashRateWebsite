@@ -6,11 +6,11 @@ import com.hashrate.model.Contact;
 import com.hashrate.model.Ticket;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;
@@ -26,7 +26,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-@RequiredArgsConstructor
 @Slf4j
 public class EmailService {
     
@@ -52,6 +51,12 @@ public class EmailService {
     
     @Value("${app.company.website:https://www.hashrate.in}")
     private String companyWebsite;
+
+    @Autowired
+    public EmailService(JavaMailSender mailSender, TemplateEngine templateEngine) {
+        this.mailSender = mailSender;
+        this.templateEngine = templateEngine;
+    }
     
     public void sendContactFormNotification(Contact contact) {
         try {
@@ -189,7 +194,7 @@ public class EmailService {
     
     private void sendTicketConfirmation(Ticket ticket) {
         try {
-            log.info("Sending ticket confirmation to: {}", ticket.getEmail());
+            log.info("Sending ticket confirmation to: {}", ticket.getCustomerEmail());
             
             Map<String, Object> variables = new HashMap<>();
             variables.put("ticket", ticket);
@@ -199,7 +204,7 @@ public class EmailService {
             String htmlContent = processTemplate("email/ticket-confirmation", variables);
             
             sendHtmlEmail(
-                    ticket.getEmail(),
+                    ticket.getCustomerEmail(),
                     "Ticket Created - " + ticket.getTicketNumber() + " - " + companyName,
                     htmlContent
             );
@@ -222,7 +227,7 @@ public class EmailService {
             String htmlContent = processTemplate("email/ticket-update", variables);
             
             sendHtmlEmail(
-                    ticket.getEmail(),
+                    ticket.getCustomerEmail(),
                     "Ticket Update - " + ticket.getTicketNumber() + " - " + companyName,
                     htmlContent
             );

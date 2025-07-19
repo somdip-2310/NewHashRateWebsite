@@ -3,11 +3,11 @@ package com.hashrate.service;
 import com.hashrate.model.*;
 import com.hashrate.util.SeoUtils;
 import com.hashrate.util.SitemapGenerator;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -17,13 +17,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 @Slf4j
 public class SeoService {
     
-	private static final Logger log = LoggerFactory.getLogger(SeoService.class);
+    private static final Logger log = LoggerFactory.getLogger(SeoService.class);
     
-	
     private final SeoUtils seoUtils;
     private final SitemapGenerator sitemapGenerator;
     private final ProductService productService;
@@ -37,6 +35,23 @@ public class SeoService {
     
     @Value("${app.company.name:Hash Rate Communications}")
     private String companyName;
+
+    @Autowired
+    public SeoService(SeoUtils seoUtils,
+                     SitemapGenerator sitemapGenerator,
+                     ProductService productService,
+                     SolutionService solutionService,
+                     ServiceManagementService serviceManagementService,
+                     ProjectService projectService,
+                     CareerService careerService) {
+        this.seoUtils = seoUtils;
+        this.sitemapGenerator = sitemapGenerator;
+        this.productService = productService;
+        this.solutionService = solutionService;
+        this.serviceManagementService = serviceManagementService;
+        this.projectService = projectService;
+        this.careerService = careerService;
+    }
     
     public SeoMetadata generateProductSeoMetadata(Product product) {
         String title = product.getName() + " - " + companyName;

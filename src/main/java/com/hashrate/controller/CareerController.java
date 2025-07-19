@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
@@ -74,7 +75,10 @@ public class CareerController {
         model.addAttribute("applicationForm", new CareerApplicationDTO());
         
         // Add related careers
-        List<Career> relatedCareers = careerService.findByDepartment(career.getDepartment())
+     // Create a simple pageable for related careers (first 10 results)
+        Pageable relatedPageable = PageRequest.of(0, 10);
+        List<Career> relatedCareers = careerService.findByDepartment(career.getDepartment(), relatedPageable)
+                .getContent()
                 .stream()
                 .filter(c -> !c.getId().equals(career.getId()))
                 .limit(3)

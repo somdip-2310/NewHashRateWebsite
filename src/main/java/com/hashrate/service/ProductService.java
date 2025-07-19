@@ -4,11 +4,11 @@ import com.hashrate.model.Product;
 import com.hashrate.model.Product.ProductCategory;
 import com.hashrate.repository.ProductRepository;
 import com.hashrate.util.SeoUtils;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 @Slf4j
 @Transactional(readOnly = true)
 public class ProductService {
@@ -29,6 +28,15 @@ public class ProductService {
     private final SeoService seoService;
     
     private static final Logger log = LoggerFactory.getLogger(ProductService.class);
+
+    @Autowired
+    public ProductService(ProductRepository productRepository, 
+                         SeoUtils seoUtils, 
+                         SeoService seoService) {
+        this.productRepository = productRepository;
+        this.seoUtils = seoUtils;
+        this.seoService = seoService;
+    }
     
     @Cacheable(value = "products", key = "#slug")
     public Optional<Product> findBySlug(String slug) {
