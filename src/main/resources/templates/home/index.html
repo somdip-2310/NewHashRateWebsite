@@ -1039,7 +1039,17 @@
                     </div>
                     <h4>Enterprise Servers</h4>
                     <p>High-performance servers from HP, Dell, and Lenovo with custom configurations</p>
-                    <a href="#" class="product-link">View Products</a>
+					<!-- For Enterprise Servers -->
+					<a th:href="@{/products/servers}" class="product-link">View Products</a>
+
+					<!-- For Controllers & Automation -->
+					<a th:href="@{/products/controllers}" class="product-link">View Products</a>
+
+					<!-- For Software Solutions -->
+					<a th:href="@{/solutions}" class="product-link">View Solutions</a>
+
+					<!-- For Security & Monitoring -->
+					<a th:href="@{/products/bms}" class="product-link">View Products</a>
                 </div>
 
                 <div class="product-card animate-on-scroll">
@@ -1048,7 +1058,17 @@
                     </div>
                     <h4>Controllers & Automation</h4>
                     <p>Industrial automation and control systems from leading manufacturers</p>
-                    <a href="#" class="product-link">View Products</a>
+					<!-- For Enterprise Servers -->
+					<a th:href="@{/products/servers}" class="product-link">View Products</a>
+
+					<!-- For Controllers & Automation -->
+					<a th:href="@{/products/controllers}" class="product-link">View Products</a>
+
+					<!-- For Software Solutions -->
+					<a th:href="@{/solutions}" class="product-link">View Solutions</a>
+
+					<!-- For Security & Monitoring -->
+					<a th:href="@{/products/bms}" class="product-link">View Products</a>
                 </div>
 
                 <div class="product-card animate-on-scroll">
@@ -1066,7 +1086,17 @@
                     </div>
                     <h4>Security & Monitoring</h4>
                     <p>Comprehensive security and monitoring solutions for enterprise facilities</p>
-                    <a href="#" class="product-link">View Products</a>
+					<!-- For Enterprise Servers -->
+					<a th:href="@{/products/servers}" class="product-link">View Products</a>
+
+					<!-- For Controllers & Automation -->
+					<a th:href="@{/products/controllers}" class="product-link">View Products</a>
+
+					<!-- For Software Solutions -->
+					<a th:href="@{/solutions}" class="product-link">View Solutions</a>
+
+					<!-- For Security & Monitoring -->
+					<a th:href="@{/products/bms}" class="product-link">View Products</a>
                 </div>
             </div>
         </div>
@@ -1079,14 +1109,14 @@
                 <h2>Ready to Transform Your Infrastructure?</h2>
                 <p>Get personalized recommendations from our technical experts and discover how we can optimize your operations with cutting-edge technology solutions.</p>
                 <div class="cta-actions">
-                    <a href="#contact" class="btn btn-primary">
-                        <span>Start Your Project</span>
-                        <i class="fas fa-arrow-right"></i>
-                    </a>
-                    <a href="tel:+919876543210" class="btn btn-secondary">
-                        <i class="fas fa-phone"></i>
-                        <span>Call Our Experts</span>
-                    </a>
+					<a th:href="@{/contact}" class="btn btn-primary">
+					    <span>Start Your Project</span>
+					    <i class="fas fa-arrow-right"></i>
+					</a>
+					<a th:href="@{/contact}" class="btn btn-secondary">
+					    <i class="fas fa-phone"></i>
+					    <span>Call Our Experts</span>
+					</a>
                 </div>
             </div>
         </div>
