@@ -6,34 +6,155 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
     <!-- SEO Meta Tags -->
-    <title th:text="${seoMetadata != null ? seoMetadata.title : 'Hash Rate Communications'}">Hash Rate Communications</title>
-    <meta name="description" th:content="${seoMetadata != null ? seoMetadata.description : 'Leading provider of datacenter infrastructure solutions'}">
-    <meta name="keywords" th:content="${seoMetadata != null ? seoMetadata.keywords : 'datacenter, infrastructure, BMS, DCIM, industrial automation'}">
+    <title th:text="${seoMetadata != null ? seoMetadata.title : pageTitle + ' - Hash Rate Communications'}">Hash Rate Communications</title>
+    <meta name="description" th:content="${seoMetadata != null ? seoMetadata.description : pageDescription}">
+    <meta name="keywords" th:content="${seoMetadata != null ? seoMetadata.keywords : pageKeywords}">
+    <meta name="author" content="Hash Rate Communications">
+    <meta name="robots" th:content="${seoMetadata != null ? seoMetadata.robots : 'index, follow'}">
     
     <!-- Open Graph Meta Tags -->
-    <meta property="og:title" th:content="${seoMetadata != null ? seoMetadata.title : 'Hash Rate Communications'}">
-    <meta property="og:description" th:content="${seoMetadata != null ? seoMetadata.description : 'Leading provider of datacenter infrastructure solutions'}">
+    <meta property="og:title" th:content="${seoMetadata != null ? seoMetadata.title : pageTitle + ' - Hash Rate Communications'}">
+    <meta property="og:description" th:content="${seoMetadata != null ? seoMetadata.description : pageDescription}">
     <meta property="og:type" content="website">
+    <meta property="og:url" th:content="${#httpServletRequest.requestURL}">
+    <meta property="og:image" content="/images/og-default.jpg">
+    <meta property="og:site_name" content="Hash Rate Communications">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" th:content="${seoMetadata != null ? seoMetadata.title : pageTitle + ' - Hash Rate Communications'}">
+    <meta name="twitter:description" th:content="${seoMetadata != null ? seoMetadata.description : pageDescription}">
+    <meta name="twitter:image" content="/images/twitter-card.jpg">
     
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/png" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- CSS Framework -->
+    <link rel="stylesheet" href="/css/framework.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/pages.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    
+    <!-- Page Specific CSS -->
+    <th:block layout:fragment="css"></th:block>
+    
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#2c5aa0">
+    <meta name="msapplication-TileColor" content="#2c5aa0">
+    
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="/css/framework.css" as="style">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@400;500;600;700;800;900&display=swap" as="style">
+    
+    <!-- Schema.org JSON-LD -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Hash Rate Communications",
+        "url": "https://hashratecommunications.com",
+        "logo": "https://hashratecommunications.com/images/logo.png",
+        "description": "Leading provider of datacenter infrastructure solutions, building management systems, and industrial automation services.",
+        "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "IN"
+        },
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+91-9876543210",
+            "contactType": "customer service",
+            "email": "info@hashratecommunications.com"
+        },
+        "sameAs": [
+            "https://linkedin.com/company/hashratecommunications"
+        ]
+    }
+    </script>
 </head>
-<body>
+<body class="page-wrapper">
+    <!-- Loading Spinner -->
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="loading-spinner">
+            <div class="spinner-ring"></div>
+            <div class="loading-text">Hash Rate Communications</div>
+        </div>
+    </div>
+
+    <!-- Skip to Content -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
     <!-- Header -->
     <div th:replace="~{layout/header :: header}"></div>
     
     <!-- Main Content -->
-    <main layout:fragment="content">
+    <main id="main-content" layout:fragment="content">
         <!-- Page content will be inserted here -->
     </main>
     
     <!-- Footer -->
     <div th:replace="~{layout/footer :: footer}"></div>
     
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+    
+    <!-- Cookie Consent Banner -->
+    <div id="cookie-banner" class="cookie-banner" style="display: none;">
+        <div class="cookie-content">
+            <div class="cookie-text">
+                <p>We use cookies to enhance your browsing experience and provide personalized content. By continuing to use our site, you agree to our <a href="/privacy-policy">Privacy Policy</a>.</p>
+            </div>
+            <div class="cookie-actions">
+                <button id="accept-cookies" class="btn btn-primary btn-sm">Accept All</button>
+                <button id="reject-cookies" class="btn btn-secondary btn-sm">Decline</button>
+            </div>
+        </div>
+    </div>
+    
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="/js/framework.js"></script>
+    <script src="/js/components.js"></script>
+    <script src="/js/main.js"></script>
+    
+    <!-- Page Specific Scripts -->
+    <th:block layout:fragment="scripts"></th:block>
+    
+    <!-- Analytics (Replace with your actual tracking code) -->
+    <script>
+        // Google Analytics or other tracking code would go here
+        // gtag('config', 'GA_MEASUREMENT_ID');
+    </script>
+    
+    <!-- Accessibility Enhancement -->
+    <script>
+        // Focus management for keyboard navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add focus indicators for keyboard navigation
+            const focusableElements = document.querySelectorAll('a, button, input, textarea, select, [tabindex]:not([tabindex="-1"])');
+            
+            focusableElements.forEach(element => {
+                element.addEventListener('focus', function() {
+                    this.classList.add('keyboard-focused');
+                });
+                
+                element.addEventListener('blur', function() {
+                    this.classList.remove('keyboard-focused');
+                });
+            });
+        });
+    </script>
 </body>
 </html>
