@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/base}">
+<head>
+    <title>Asset Tracking Solution - Hash Rate Communications</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <!-- Page Header -->
+        <section class="page-header">
+            <div class="container">
+                <h1>Asset Tracking Solution</h1>
+                <p>Comprehensive asset management for optimal resource utilization</p>
+                <nav class="breadcrumb">
+                    <a href="/">Home</a> > <a href="/solutions">Solutions</a> > <span>Asset Tracking</span>
+                </nav>
+            </div>
+        </section>
+        
+        <!-- Solution Overview -->
+        <section class="solution-overview">
+            <div class="container">
+                <div class="overview-content">
+                    <div class="overview-text">
+                        <h2>Complete Asset Lifecycle Management</h2>
+                        <p>Our Asset Tracking Solution provides comprehensive visibility and control over your organization's physical assets, from procurement to disposal. Track equipment location, condition, maintenance history, and performance metrics in real-time.</p>
+                        <p>The system integrates with existing inventory management, maintenance scheduling, and financial systems to provide a unified view of asset utilization and ROI.</p>
+                    </div>
+                    <div class="overview-image">
+                        <img src="/images/asset-tracking-dashboard.jpg" alt="Asset Tracking Dashboard">
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Key Features -->
+        <section class="key-features">
+            <div class="container">
+                <h2>Key Features</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="icon-rfid"></i>
+                        </div>
+                        <h3>RFID & Barcode Tracking</h3>
+                        <p>Advanced identification technology for accurate asset location and movement tracking with real-time updates.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="icon-calendar"></i>
+                        </div>
+                        <h3>Maintenance Scheduling</h3>
+                        <p>Automated maintenance scheduling based on usage patterns, manufacturer recommendations, and regulatory requirements.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="icon-analytics"></i>
+                        </div>
+                        <h3>Performance Analytics</h3>
+                        <p>Detailed analytics on asset utilization, downtime patterns, and maintenance costs to optimize asset performance.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="icon-inventory"></i>
+                        </div>
+                        <h3>Inventory Management</h3>
+                        <p>Real-time inventory tracking with automated reorder points and spare parts management for critical equipment.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="icon-compliance"></i>
+                        </div>
+                        <h3>Compliance Reporting</h3>
+                        <p>Automated compliance documentation for regulatory requirements, audits, and certification processes.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="icon-mobile-tracking"></i>
+                        </div>
+                        <h3>Mobile Asset Management</h3>
+                        <p>Mobile application for field technicians to update asset status, complete work orders, and access documentation.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Asset Tracking Components -->
+        <section class="tracking-components">
+            <div class="container">
+                <h2>System Components</h2>
+                <div class="components-tabs">
+                    <button class="tab-button active" data-tab="identification">Asset Identification</button>
+                    <button class="tab-button" data-tab="location">Location Tracking</button>
+                    <button class="tab-button" data-tab="maintenance">Maintenance Management</button>
+                    <button class="tab-button" data-tab="reporting">Reporting & Analytics</button>
+                </div>
+                
+                <!-- Asset Identification -->
+                <div id="identification" class="tab-content active">
+                    <h3>Asset Identification Systems</h3>
+                    <div class="component-grid">
+                        <div class="component-item">
+                            <h4>RFID Technology</h4>
+                            <ul>
+                                <li>Passive and active RFID tags</li>
+                                <li>Long-range reading capabilities</li>
+                                <li>Tamper-evident options</li>
+                                <li>Environmental resistance ratings</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="component-item">
+                            <h4>Barcode Systems</h4>
+                            <ul>
+                                <li>1D and 2D barcode support</li>
+                                <li>Durable label materials</li>
+                                <li>Mobile scanning applications</li>
+                                <li>Batch scanning capabilities</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="component-item">
+                            <h4>Asset Tagging</h4>
+                            <ul>
+                                <li>Custom asset numbering schemes</li>
+                                <li>QR code integration</li>
+                                <li>Serial number tracking</li>
+                                <li>Asset genealogy records</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Location Tracking -->
+                <div id="location" class="tab-content">
+                    <h3>Real-Time Location Systems</h3>
+                    <div class="component-grid">
+                        <div class="component-item">
+                            <h4>Indoor Positioning</h4>
+                            <ul>
+                                <li>Wi-Fi based location tracking</li>
+                                <li>Bluetooth beacon networks</li>
+                                <li>Ultra-wideband (UWB) technology</li>
+                                <li>Zone-based tracking</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="component-item">
+                            <h4>GPS Tracking</h4>
+                            <ul>
+                                <li>Outdoor asset tracking</li>
+                                <li>Fleet management integration</li>
+                                <li>Geofencing capabilities</li>
+                                <li>Route optimization</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="component-item">
+                            <h4>Movement Detection</h4>
+                            <ul>
+                                <li>Unauthorized movement alerts</li>
+                                <li>Chain of custody tracking</li>
+                                <li>Asset check-in/out procedures</li>
+                                <li>Transfer documentation</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Maintenance Management -->
+                <div id="maintenance" class="tab-content">
+                    <h3>Maintenance Management Features</h3>
+                    <div class="component-grid">
+                        <div class="component-item">
+                            <h4>Preventive Maintenance</h4>
+                            <ul>
+                                <li>Calendar-based scheduling</li>
+                                <li>Usage-based triggers</li>
+                                <li>Condition-based maintenance</li>
+                                <li>Maintenance task libraries</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="component-item">
+                            <h4>Work Order Management</h4>
+                            <ul>
+                                <li>Digital work order creation</li>
+                                <li>Technician assignment</li>
+                                <li>Parts and labor tracking</li>
+                                <li>Completion documentation</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="component-item">
+                            <h4>Spare Parts Management</h4>
+                            <ul>
+                                <li>Critical spares identification</li>
+                                <li>Automated reorder points</li>
+                                <li>Supplier management</li>
+                                <li>Cost optimization</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Reporting & Analytics -->
+                <div id="reporting" class="tab-content">
+                    <h3>Reporting & Analytics</h3>
+                    <div class="component-grid">
+                        <div class="component-item">
+                            <h4>Asset Performance</h4>
+                            <ul>
+                                <li>Uptime and availability metrics</li>
+                                <li>Mean time between failures (MTBF)</li>
+                                <li>Asset utilization rates</li>
+                                <li>Performance benchmarking</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="component-item">
+                            <h4>Financial Analytics</h4>
+                            <ul>
+                                <li>Total cost of ownership (TCO)</li>
+                                <li>Return on investment (ROI)</li>
+                                <li>Depreciation tracking</li>
+                                <li>Maintenance cost analysis</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="component-item">
+                            <h4>Compliance Reports</h4>
+                            <ul>
+                                <li>Regulatory compliance status</li>
+                                <li>Audit trail documentation</li>
+                                <li>Certification tracking</li>
+                                <li>Safety inspection records</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Implementation Process -->
+        <section class="implementation-process">
+            <div class="container">
+                <h2>Implementation Process</h2>
+                <div class="process-steps">
+                    <div class="process-step">
+                        <div class="step-number">1</div>
+                        <h3>Asset Discovery & Audit</h3>
+                        <p>Complete inventory of existing assets with condition assessment and data collection.</p>
+                    </div>
+                    
+                    <div class="process-step">
+                        <div class="step-number">2</div>
+                        <h3>System Design</h3>
+                        <p>Custom configuration based on asset types, tracking requirements, and business processes.</p>
+                    </div>
+                    
+                    <div class="process-step">
+                        <div class="step-number">3</div>
+                        <h3>Tag Installation</h3>
+                        <p>Professional installation of RFID tags, barcodes, and tracking infrastructure.</p>
+                    </div>
+                    
+                    <div class="process-step">
+                        <div class="step-number">4</div>
+                        <h3>System Integration</h3>
+                        <p>Integration with existing ERP, CMMS, and financial systems for seamless data flow.</p>
+                    </div>
+                    
+                    <div class="process-step">
+                        <div class="step-number">5</div>
+                        <h3>Training & Go-Live</h3>
+                        <p>Comprehensive user training and phased deployment with ongoing support.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Benefits -->
+        <section class="benefits-section">
+            <div class="container">
+                <h2>Business Benefits</h2>
+                <div class="benefits-grid">
+                    <div class="benefit">
+                        <h3>Reduced Asset Loss</h3>
+                        <p>Minimize asset loss and theft through real-time tracking and movement monitoring.</p>
+                    </div>
+                    <div class="benefit">
+                        <h3>Improved Utilization</h3>
+                        <p>Optimize asset utilization rates by identifying underutilized equipment and redeployment opportunities.</p>
+                    </div>
+                    <div class="benefit">
+                        <h3>Lower Maintenance Costs</h3>
+                        <p>Reduce emergency repairs and extend asset life through proactive maintenance scheduling.</p>
+                    </div>
+                    <div class="benefit">
+                        <h3>Compliance Assurance</h3>
+                        <p>Ensure regulatory compliance with automated documentation and audit trail capabilities.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Contact CTA -->
+        <section class="contact-cta">
+            <div class="container">
+                <h2>Transform Your Asset Management</h2>
+                <p>Discover how our Asset Tracking Solution can optimize your asset performance and reduce costs.</p>
+                <a href="/contact" class="btn btn-primary">Schedule Demo</a>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

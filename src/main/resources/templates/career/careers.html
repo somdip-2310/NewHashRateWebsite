@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/base}">
+<head>
+    <title>Careers - Hash Rate Communications</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <!-- Page Header -->
+        <section class="page-header">
+            <div class="container">
+                <h1>Join Our Team</h1>
+                <p>Build your career with a leader in datacenter infrastructure and building management solutions</p>
+                <nav class="breadcrumb">
+                    <a href="/">Home</a> > <span>Careers</span>
+                </nav>
+            </div>
+        </section>
+        
+        <!-- Company Culture -->
+        <section class="company-culture">
+            <div class="container">
+                <div class="culture-content">
+                    <div class="culture-text">
+                        <h2>Why Work With Us?</h2>
+                        <p>At Hash Rate Communications, we're building the future of intelligent infrastructure. Join a team of passionate professionals who are transforming how buildings and data centers operate through innovative technology solutions.</p>
+                        
+                        <div class="culture-highlights">
+                            <div class="culture-item">
+                                <div class="culture-icon">
+                                    <i class="icon-innovation"></i>
+                                </div>
+                                <h3>Innovation First</h3>
+                                <p>Work with cutting-edge technologies and contribute to groundbreaking solutions that shape the industry.</p>
+                            </div>
+                            
+                            <div class="culture-item">
+                                <div class="culture-icon">
+                                    <i class="icon-growth"></i>
+                                </div>
+                                <h3>Career Growth</h3>
+                                <p>Accelerate your professional development with mentorship, training, and advancement opportunities.</p>
+                            </div>
+                            
+                            <div class="culture-item">
+                                <div class="culture-icon">
+                                    <i class="icon-impact"></i>
+                                </div>
+                                <h3>Meaningful Impact</h3>
+                                <p>Your work directly contributes to energy efficiency, sustainability, and operational excellence for our clients.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="culture-image">
+                        <img src="/images/team-at-work.jpg" alt="Hash Rate Communications Team">
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Job Search and Filters -->
+        <section class="job-search">
+            <div class="container">
+                <div class="search-header">
+                    <h2>Open Positions</h2>
+                    <p>Find your next opportunity and take your career to the next level</p>
+                </div>
+                
+                <!-- Job Search Form -->
+                <div class="job-search-form">
+                    <form action="/careers" method="get" class="search-form">
+                        <div class="search-inputs">
+                            <div class="search-field">
+                                <label for="jobKeyword">Keywords</label>
+                                <input type="text" 
+                                       id="jobKeyword" 
+                                       name="keyword" 
+                                       th:value="${searchParams?.keyword}"
+                                       placeholder="Job title, skills, or department...">
+                            </div>
+                            
+                            <div class="search-field">
+                                <label for="jobLocation">Location</label>
+                                <select id="jobLocation" name="location">
+                                    <option value="">All Locations</option>
+                                    <option value="headquarters" th:selected="${searchParams?.location == 'headquarters'}">Headquarters - Tech City</option>
+                                    <option value="west-coast" th:selected="${searchParams?.location == 'west-coast'}">West Coast - Coastal City</option>
+                                    <option value="remote" th:selected="${searchParams?.location == 'remote'}">Remote</option>
+                                    <option value="hybrid" th:selected="${searchParams?.location == 'hybrid'}">Hybrid</option>
+                                </select>
+                            </div>
+                            
+                            <div class="search-field">
+                                <label for="jobDepartment">Department</label>
+                                <select id="jobDepartment" name="department">
+                                    <option value="">All Departments</option>
+                                    <option value="ENGINEERING" th:selected="${searchParams?.department == 'ENGINEERING'}">Engineering</option>
+                                    <option value="SALES" th:selected="${searchParams?.department == 'SALES'}">Sales</option>
+                                    <option value="SUPPORT" th:selected="${searchParams?.department == 'SUPPORT'}">Technical Support</option>
+                                    <option value="OPERATIONS" th:selected="${searchParams?.department == 'OPERATIONS'}">Operations</option>
+                                    <option value="ADMINISTRATION" th:selected="${searchParams?.department == 'ADMINISTRATION'}">Administration</option>
+                                </select>
+                            </div>
+                            
+                            <div class="search-field">
+                                <label for="jobType">Employment Type</label>
+                                <select id="jobType" name="type">
+                                    <option value="">All Types</option>
+                                    <option value="FULL_TIME" th:selected="${searchParams?.type == 'FULL_TIME'}">Full Time</option>
+                                    <option value="PART_TIME" th:selected="${searchParams?.type == 'PART_TIME'}">Part Time</option>
+                                    <option value="CONTRACT" th:selected="${searchParams?.type == 'CONTRACT'}">Contract</option>
+                                    <option value="INTERNSHIP" th:selected="${searchParams?.type == 'INTERNSHIP'}">Internship</option>
+                                </select>
+                            </div>
+                            
+                            <div class="search-actions">
+                                <button type="submit" class="btn btn-primary">Search Jobs</button>
+                                <a href="/careers" class="btn btn-secondary">Clear Filters</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- Search Results Summary -->
+                <div class="search-results-summary" th:if="${careers}">
+                    <p th:text="${careers.size()} + ' positions found'">5 positions found</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Job Listings -->
+        <section class="job-listings">
+            <div class="container">
+                <div class="jobs-container">
+                    <!-- Job Cards -->
+                    <div class="jobs-grid">
+                        <div th:each="career : ${careers}" class="job-card">
+                            <div class="job-header">
+                                <div class="job-title-section">
+                                    <h3 class="job-title">
+                                        <a th:href="@{/careers/{jobId}(jobId=${career.jobId})}" th:text="${career.title}">Job Title</a>
+                                    </h3>
+                                    <div class="job-meta">
+                                        <span class="job-department" th:text="${career.department.displayName}">Department</span>
+                                        <span class="job-location" th:text="${career.location}">Location</span>
+                                        <span class="job-type" th:text="${career.employmentType.displayName}">Employment Type</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- Job Badge -->
+                                <div class="job-badges">
+                                    <span class="job-badge featured" th:if="${career.isFeatured}">Featured</span>
+                                    <span class="job-badge urgent" th:if="${career.isUrgent}">Urgent</span>
+                                    <span class="job-badge new" th:if="${career.isNewPosting}">New</span>
+                                </div>
+                            </div>
+                            
+                            <div class="job-content">
+                                <div class="job-description">
+                                    <p th:text="${career.shortDescription}">Brief job description...</p>
+                                </div>
+                                
+                                <!-- Key Requirements -->
+                                <div class="job-requirements" th:if="${career.keyRequirements}">
+                                    <h4>Key Requirements:</h4>
+                                    <ul>
+                                        <li th:each="requirement : ${career.keyRequirements}" th:text="${requirement}">Requirement item</li>
+                                    </ul>
+                                </div>
+                                
+                                <!-- Skills Tags -->
+                                <div class="job-skills" th:if="${career.requiredSkills}">
+                                    <h4>Required Skills:</h4>
+                                    <div class="skills-tags">
+                                        <span th:each="skill : ${career.requiredSkills}" 
+                                              class="skill-tag" 
+                                              th:text="${skill}">Skill</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- Salary Range -->
+                                <div class="job-salary" th:if="${career.salaryRange}">
+                                    <div class="salary-info">
+                                        <i class="icon-dollar"></i>
+                                        <span th:text="${career.salaryRange}">$80,000 - $120,000</span>
+                                        <small>per year</small>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="job-footer">
+                                <div class="job-posted">
+                                    <i class="icon-calendar"></i>
+                                    <span th:text="'Posted ' + ${#temporals.format(career.postedDate, 'MMM dd, yyyy')}">Posted Dec 15, 2024</span>
+                                </div>
+                                
+                                <div class="job-actions">
+                                    <a th:href="@{/careers/{jobId}(jobId=${career.jobId})}" class="btn btn-primary">
+                                        View Details
+                                    </a>
+                                    <a th:href="@{/careers/{jobId}/apply(jobId=${career.jobId})}" class="btn btn-secondary">
+                                        Apply Now
+                                    </a>
+                                    
+                                    <!-- Additional Actions -->
+                                    <button class="btn-icon" title="Save Job">
+                                        <i class="icon-bookmark"></i>
+                                    </button>
+                                    <button class="btn-icon" title="Share Job">
+                                        <i class="icon-share"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- No Results Message -->
+                    <div th:if="${careers.empty}" class="no-results">
+                        <div class="no-results-content">
+                            <i class="icon-search-empty"></i>
+                            <h3>No Positions Found</h3>
+                            <p>We couldn't find any positions matching your search criteria. Try adjusting your filters or check back later for new opportunities.</p>
+                            <a href="/careers" class="btn btn-primary">View All Positions</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Employee Benefits -->
+        <section class="employee-benefits">
+            <div class="container">
+                <h2>Comprehensive Benefits Package</h2>
+                <p>We value our team members and provide competitive benefits to support your well-being and growth.</p>
+                
+                <div class="benefits-grid">
+                    <!-- Health & Wellness -->
+                    <div class="benefit-category">
+                        <div class="benefit-icon">
+                            <i class="icon-health"></i>
+                        </div>
+                        <h3>Health & Wellness</h3>
+                        <ul>
+                            <li>Comprehensive medical, dental, and vision insurance</li>
+                            <li>Health Savings Account (HSA) with company contribution</li>
+                            <li>Mental health and wellness programs</li>
+                            <li>On-site fitness facility and gym membership reimbursement</li>
+                            <li>Annual health screenings and flu shots</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Financial Benefits -->
+                    <div class="benefit-category">
+                        <div class="benefit-icon">
+                            <i class="icon-financial"></i>
+                        </div>
+                        <h3>Financial Security</h3>
+                        <ul>
+                            <li>Competitive salary with performance-based bonuses</li>
+                            <li>401(k) retirement plan with company matching</li>
+                            <li>Stock options and equity participation</li>
+                            <li>Life and disability insurance</li>
+                            <li>Flexible spending accounts</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Work-Life Balance -->
+                    <div class="benefit-category">
+                        <div class="benefit-icon">
+                            <i class="icon-balance"></i>
+                        </div>
+                        <h3>Work-Life Balance</h3>
+                        <ul>
+                            <li>Flexible work schedules and remote work options</li>
+                            <li>Generous paid time off and holiday schedule</li>
+                            <li>Paid parental leave</li>
+                            <li>Sabbatical opportunities for long-term employees</li>
+                            <li>Employee assistance programs</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Professional Development -->
+                    <div class="benefit-category">
+                        <div class="benefit-icon">
+                            <i class="icon-development"></i>
+                        </div>
+                        <h3>Career Development</h3>
+                        <ul>
+                            <li>Tuition reimbursement and education assistance</li>
+                            <li>Professional certification support</li>
+                            <li>Conference and training attendance</li>
+                            <li>Mentorship and leadership development programs</li>
+                            <li>Internal mobility and promotion opportunities</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Additional Perks -->
+                    <div class="benefit-category">
+                        <div class="benefit-icon">
+                            <i class="icon-perks"></i>
+                        </div>
+                        <h3>Additional Perks</h3>
+                        <ul>
+                            <li>Catered meals and snacks</li>
+                            <li>Transportation and parking benefits</li>
+                            <li>Employee discounts and corporate partnerships</li>
+                            <li>Team building events and company outings</li>
+                            <li>Recognition and awards programs</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Technology & Tools -->
+                    <div class="benefit-category">
+                        <div class="benefit-icon">
+                            <i class="icon-technology"></i>
+                        </div>
+                        <h3>Technology & Tools</h3>
+                        <ul>
+                            <li>Latest laptops and mobile devices</li>
+                            <li>Home office setup allowance</li>
+                            <li>Software licenses and cloud services</li>
+                            <li>Internet and phone reimbursement</li>
+                            <li>Cutting-edge development and testing environments</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Departments Overview -->
+        <section class="departments-overview">
+            <div class="container">
+                <h2>Departments & Teams</h2>
+                <p>Explore different career paths and find where your skills and interests align with our mission.</p>
+                
+                <div class="departments-grid">
+                    <div class="department-card">
+                        <div class="department-icon">
+                            <i class="icon-engineering"></i>
+                        </div>
+                        <h3>Engineering</h3>
+                        <p>Design and develop innovative solutions for building management systems, datacenter infrastructure, and industrial automation.</p>
+                        <div class="department-roles">
+                            <span class="role-tag">Software Engineers</span>
+                            <span class="role-tag">Systems Engineers</span>
+                            <span class="role-tag">DevOps Engineers</span>
+                            <span class="role-tag">QA Engineers</span>
+                        </div>
+                        <a href="/careers?department=ENGINEERING" class="department-link">View Engineering Jobs</a>
+                    </div>
+                    
+                    <div class="department-card">
+                        <div class="department-icon">
+                            <i class="icon-sales"></i>
+                        </div>
+                        <h3>Sales & Marketing</h3>
+                        <p>Drive business growth by connecting with clients and promoting our innovative infrastructure solutions.</p>
+                        <div class="department-roles">
+                            <span class="role-tag">Sales Representatives</span>
+                            <span class="role-tag">Solution Architects</span>
+                            <span class="role-tag">Marketing Specialists</span>
+                            <span class="role-tag">Business Development</span>
+                        </div>
+                        <a href="/careers?department=SALES" class="department-link">View Sales & Marketing Jobs</a>
+                    </div>
+                    
+                    <div class="department-card">
+                        <div class="department-icon">
+                            <i class="icon-support"></i>
+                        </div>
+                        <h3>Technical Support</h3>
+                        <p>Provide exceptional support to our clients, ensuring optimal performance of their infrastructure systems.</p>
+                        <div class="department-roles">
+                            <span class="role-tag">Support Engineers</span>
+                            <span class="role-tag">Field Technicians</span>
+                            <span class="role-tag">Implementation Specialists</span>
+                            <span class="role-tag">Training Coordinators</span>
+                        </div>
+                        <a href="/careers?department=SUPPORT" class="department-link">View Support Jobs</a>
+                    </div>
+                    
+                    <div class="department-card">
+                        <div class="department-icon">
+                            <i class="icon-operations"></i>
+                        </div>
+                        <h3>Operations</h3>
+                        <p>Ensure smooth business operations, project management, and delivery of services to our clients.</p>
+                        <div class="department-roles">
+                            <span class="role-tag">Project Managers</span>
+                            <span class="role-tag">Operations Analysts</span>
+                            <span class="role-tag">Supply Chain</span>
+                            <span class="role-tag">Quality Assurance</span>
+                        </div>
+                        <a href="/careers?department=OPERATIONS" class="department-link">View Operations Jobs</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Employee Testimonials -->
+        <section class="employee-testimonials">
+            <div class="container">
+                <h2>What Our Team Says</h2>
+                <div class="employee-testimonials-grid">
+                    <div class="employee-testimonial">
+                        <div class="testimonial-content">
+                            <blockquote>"Working at Hash Rate Communications has been an incredible journey. The projects are challenging, the team is supportive, and I'm constantly learning new technologies."</blockquote>
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="author-photo">
+                                <img src="/images/employees/sarah-chen.jpg" alt="Sarah Chen">
+                            </div>
+                            <div class="author-info">
+                                <strong>Sarah Chen</strong>
+                                <span>Senior Software Engineer</span>
+                                <small>3 years at Hash Rate Communications</small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="employee-testimonial">
+                        <div class="testimonial-content">
+                            <blockquote>"The company culture here is amazing. Management truly cares about work-life balance, and the benefits package is comprehensive. I feel valued and supported."</blockquote>
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="author-photo">
+                                <img src="/images/employees/michael-rodriguez.jpg" alt="Michael Rodriguez">
+                            </div>
+                            <div class="author-info">
+                                <strong>Michael Rodriguez</strong>
+                                <span>Technical Support Manager</span>
+                                <small>5 years at Hash Rate Communications</small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="employee-testimonial">
+                        <div class="testimonial-content">
+                            <blockquote>"The growth opportunities are excellent. I started as a junior engineer and have been promoted twice. The mentorship program really helped accelerate my career."</blockquote>
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="author-photo">
+                                <img src="/images/employees/david-kim.jpg" alt="David Kim">
+                            </div>
+                            <div class="author-info">
+                                <strong>David Kim</strong>
+                                <span>Lead Systems Architect</span>
+                                <small>4 years at Hash Rate Communications</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Application Process -->
+        <section class="application-process">
+            <div class="container">
+                <h2>Application Process</h2>
+                <p>Our streamlined hiring process is designed to find the best talent while providing a great candidate experience.</p>
+                
+                <div class="process-timeline">
+                    <div class="process-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>Application Submission</h3>
+                            <p>Submit your application through our online portal with your resume, cover letter, and any relevant portfolio materials.</p>
+                            <small>Response within 48 hours</small>
+                        </div>
+                    </div>
+                    
+                    <div class="process-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>Initial Screening</h3>
+                            <p>Phone or video call with our HR team to discuss your background, interests, and the role requirements.</p>
+                            <small>30-45 minutes</small>
+                        </div>
+                    </div>
+                    
+                    <div class="process-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>Technical Assessment</h3>
+                            <p>Role-specific technical evaluation or project review to assess your skills and problem-solving abilities.</p>
+                            <small>Varies by role</small>
+                        </div>
+                    </div>
+                    
+                    <div class="process-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h3>Team Interviews</h3>
+                            <p>Meet with team members and hiring managers to discuss collaboration, culture fit, and role expectations.</p>
+                            <small>2-3 hours</small>
+                        </div>
+                    </div>
+                    
+                    <div class="process-step">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <h3>Final Decision</h3>
+                            <p>Reference checks, offer discussion, and onboarding coordination for successful candidates.</p>
+                            <small>Within 1 week</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Diversity & Inclusion -->
+        <section class="diversity-inclusion">
+            <div class="container">
+                <div class="di-content">
+                    <div class="di-text">
+                        <h2>Diversity & Inclusion</h2>
+                        <p>At Hash Rate Communications, we believe that diverse perspectives drive innovation. We're committed to creating an inclusive workplace where everyone can thrive regardless of their background, identity, or experience.</p>
+                        
+                        <div class="di-commitments">
+                            <div class="commitment-item">
+                                <h3>Equal Opportunity</h3>
+                                <p>We provide equal employment opportunities to all qualified candidates without regard to race, gender, age, religion, sexual orientation, or disability status.</p>
+                            </div>
+                            
+                            <div class="commitment-item">
+                                <h3>Inclusive Culture</h3>
+                                <p>We foster an environment where different perspectives are valued, and every team member feels heard and respected.</p>
+                            </div>
+                            
+                            <div class="commitment-item">
+                                <h3>Professional Development</h3>
+                                <p>We provide mentorship, training, and advancement opportunities to help all employees reach their full potential.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="di-statistics">
+                        <h3>Our Team Diversity</h3>
+                        <div class="diversity-stats">
+                            <div class="stat-item">
+                                <div class="stat-circle">
+                                    <span class="stat-number">45%</span>
+                                </div>
+                                <div class="stat-label">Women in Leadership</div>
+                            </div>
+                            
+                            <div class="stat-item">
+                                <div class="stat-circle">
+                                    <span class="stat-number">35%</span>
+                                </div>
+                                <div class="stat-label">Underrepresented Groups</div>
+                            </div>
+                            
+                            <div class="stat-item">
+                                <div class="stat-circle">
+                                    <span class="stat-number">20+</span>
+                                </div>
+                                <div class="stat-label">Countries Represented</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Contact & Questions -->
+        <section class="career-contact">
+            <div class="container">
+                <h2>Questions About Careers?</h2>
+                <p>Our HR team is here to help answer any questions about opportunities, benefits, or the application process.</p>
+                
+                <div class="contact-options">
+                    <div class="contact-option">
+                        <div class="contact-icon">
+                            <i class="icon-email"></i>
+                        </div>
+                        <h3>Email Us</h3>
+                        <p><a href="mailto:careers@hashratecommunications.com">careers@hashratecommunications.com</a></p>
+                        <small>Response within 24 hours</small>
+                    </div>
+                    
+                    <div class="contact-option">
+                        <div class="contact-icon">
+                            <i class="icon-phone"></i>
+                        </div>
+                        <h3>Call Us</h3>
+                        <p><a href="tel:+1-555-123-4567">+1 (555) 123-4567</a></p>
+                        <small>Monday - Friday, 9 AM - 5 PM EST</small>
+                    </div>
+                    
+                    <div class="contact-option">
+                        <div class="contact-icon">
+                            <i class="icon-calendar"></i>
+                        </div>
+                        <h3>Schedule a Call</h3>
+                        <p><a href="/careers/schedule-call">Book a consultation</a></p>
+                        <small>15-30 minute career discussions</small>
+                    </div>
+                </div>
+                
+                <!-- Job Alerts Signup -->
+                <div class="job-alerts">
+                    <h3>Stay Updated</h3>
+                    <p>Get notified about new opportunities that match your interests and skills.</p>
+                    
+                    <form class="job-alerts-form" th:action="@{/careers/job-alerts}" method="post">
+                        <div class="alerts-form-fields">
+                            <div class="form-group">
+                                <input type="email" name="email" placeholder="Your email address" required>
+                            </div>
+                            <div class="form-group">
+                                <select name="department">
+                                    <option value="">All Departments</option>
+                                    <option value="ENGINEERING">Engineering</option>
+                                    <option value="SALES">Sales & Marketing</option>
+                                    <option value="SUPPORT">Technical Support</option>
+                                    <option value="OPERATIONS">Operations</option>
+                                    <option value="ADMINISTRATION">Administration</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <select name="location">
+                                    <option value="">All Locations</option>
+                                    <option value="headquarters">Headquarters</option>
+                                    <option value="west-coast">West Coast</option>
+                                    <option value="remote">Remote</option>
+                                    <option value="hybrid">Hybrid</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Subscribe to Alerts</button>
+                        </div>
+                        
+                        <div class="privacy-note">
+                            <small>We respect your privacy. Unsubscribe at any time. <a href="/privacy-policy">Privacy Policy</a></small>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Call to Action -->
+        <section class="career-cta">
+            <div class="container">
+                <div class="cta-content">
+                    <h2>Ready to Build the Future?</h2>
+                    <p>Join our team and help shape the next generation of intelligent infrastructure solutions. Your career journey starts here.</p>
+                    <div class="cta-actions">
+                        <a href="/careers?featured=true" class="btn btn-primary">View Featured Positions</a>
+                        <a href="/contact" class="btn btn-secondary">General Inquiries</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

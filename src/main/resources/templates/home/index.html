@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/base}">
+<head>
+    <title>Home - Hash Rate Communications</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Leading Datacenter Infrastructure Solutions</h1>
+                    <p>Empowering businesses with cutting-edge building management systems, industrial automation, and comprehensive datacenter solutions.</p>
+                    <div class="hero-buttons">
+                        <a href="/products" class="btn btn-primary">Explore Products</a>
+                        <a href="/contact" class="btn btn-secondary">Get Started</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="/images/hero-datacenter.jpg" alt="Datacenter Infrastructure">
+                </div>
+            </div>
+        </section>
+        
+        <!-- Services Overview -->
+        <section class="services-overview">
+            <div class="container">
+                <h2>Our Core Services</h2>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="icon-datacenter"></i>
+                        </div>
+                        <h3>Datacenter Solutions</h3>
+                        <p>Complete infrastructure solutions for modern datacenters including servers, storage, and networking equipment.</p>
+                        <a href="/products" class="service-link">Learn More</a>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="icon-automation"></i>
+                        </div>
+                        <h3>Building Management</h3>
+                        <p>Advanced BMS solutions for monitoring and controlling building systems with real-time analytics.</p>
+                        <a href="/solutions" class="service-link">Learn More</a>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="icon-support"></i>
+                        </div>
+                        <h3>Technical Support</h3>
+                        <p>24/7 technical support and maintenance services to keep your systems running optimally.</p>
+                        <a href="/services" class="service-link">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Featured Products -->
+        <section class="featured-products">
+            <div class="container">
+                <h2>Featured Products</h2>
+                <div class="products-grid">
+                    <div th:each="product : ${featuredProducts}" class="product-card">
+                        <div class="product-image">
+                            <img th:src="${product.imageUrl}" th:alt="${product.title}">
+                        </div>
+                        <div class="product-info">
+                            <h3 th:text="${product.title}">Product Title</h3>
+                            <p th:text="${product.shortDescription}">Product description</p>
+                            <a th:href="@{/products/{slug}(slug=${product.slug})}" class="product-link">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Client Testimonials -->
+        <section class="testimonials">
+            <div class="container">
+                <h2>What Our Clients Say</h2>
+                <div class="testimonials-grid">
+                    <div class="testimonial">
+                        <blockquote>
+                            "Hash Rate Communications delivered exceptional datacenter infrastructure that exceeded our expectations. Their team's expertise is unmatched."
+                        </blockquote>
+                        <cite>- Tech Director, Fortune 500 Company</cite>
+                    </div>
+                    
+                    <div class="testimonial">
+                        <blockquote>
+                            "The BMS solution transformed our building operations. We've seen significant cost savings and improved efficiency."
+                        </blockquote>
+                        <cite>- Facilities Manager, Commercial Real Estate</cite>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

@@ -1,0 +1,229 @@
+<!-- Basic Testimonial Component -->
+<div th:fragment="testimonial(testimonial)" class="testimonial" xmlns:th="http://www.thymeleaf.org">
+    <div class="testimonial-container">
+        <!-- Quote Content -->
+        <div class="testimonial-content">
+            <div class="quote-mark">
+                <i class="icon-quote"></i>
+            </div>
+            <blockquote th:text="${testimonial.quote}">
+                This is a sample testimonial quote that demonstrates the component structure.
+            </blockquote>
+        </div>
+        
+        <!-- Author Information -->
+        <div class="testimonial-author">
+            <!-- Author Photo -->
+            <div class="author-photo" th:if="${testimonial.authorPhoto}">
+                <img th:src="${testimonial.authorPhoto}" 
+                     th:alt="${testimonial.authorName}"
+                     loading="lazy">
+            </div>
+            
+            <!-- Author Details -->
+            <div class="author-details">
+                <cite class="author-name" th:text="${testimonial.authorName}">Author Name</cite>
+                <div class="author-title" th:text="${testimonial.authorTitle}">Job Title</div>
+                <div class="author-company" th:text="${testimonial.companyName}">Company Name</div>
+                
+                <!-- Company Logo -->
+                <div class="company-logo" th:if="${testimonial.companyLogo}">
+                    <img th:src="${testimonial.companyLogo}" 
+                         th:alt="${testimonial.companyName} + ' Logo'"
+                         loading="lazy">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Rating -->
+        <div class="testimonial-rating" th:if="${testimonial.rating}">
+            <div class="rating-stars">
+                <span th:each="i : ${#numbers.sequence(1, 5)}" class="star">
+                    <i th:class="${i <= testimonial.rating} ? 'icon-star-filled' : 'icon-star-empty'"></i>
+                </span>
+            </div>
+            <span class="rating-text" th:text="${testimonial.rating} + ' out of 5 stars'">5 out of 5 stars</span>
+        </div>
+        
+        <!-- Project Information -->
+        <div class="testimonial-project" th:if="${testimonial.projectInfo}">
+            <h4>Project Details:</h4>
+            <ul>
+                <li th:text="'Project Type: ' + ${testimonial.projectInfo.type}">Project Type: BMS Implementation</li>
+                <li th:text="'Size: ' + ${testimonial.projectInfo.size}">Size: 500,000 sq ft</li>
+                <li th:text="'Completion: ' + ${testimonial.projectInfo.completionDate}">Completion: 2023</li>
+            </ul>
+        </div>
+        
+        <!-- Case Study Link -->
+        <div class="testimonial-link" th:if="${testimonial.caseStudyUrl}">
+            <a th:href="${testimonial.caseStudyUrl}" class="case-study-link">
+                Read Full Case Study <i class="icon-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Testimonial Carousel Component -->
+<div th:fragment="testimonial-carousel(testimonials)" class="testimonial-carousel" xmlns:th="http://www.thymeleaf.org">
+    <div class="carousel-container">
+        <div class="carousel-slides">
+            <div th:each="testimonial, iterStat : ${testimonials}" 
+                 class="carousel-slide"
+                 th:classappend="${iterStat.first} ? 'active' : ''">
+                <div th:replace="~{components/testimonial :: testimonial(${testimonial})}"></div>
+            </div>
+        </div>
+        
+        <!-- Carousel Navigation -->
+        <div class="carousel-navigation">
+            <button class="carousel-btn prev-btn" aria-label="Previous testimonial">
+                <i class="icon-chevron-left"></i>
+            </button>
+            <button class="carousel-btn next-btn" aria-label="Next testimonial">
+                <i class="icon-chevron-right"></i>
+            </button>
+        </div>
+        
+        <!-- Carousel Indicators -->
+        <div class="carousel-indicators">
+            <button th:each="testimonial, iterStat : ${testimonials}"
+                    class="indicator"
+                    th:classappend="${iterStat.first} ? 'active' : ''"
+                    th:attr="data-slide=${iterStat.index}"
+                    th:aria-label="'Go to testimonial ' + ${iterStat.count}">
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Testimonials Grid Component -->
+<div th:fragment="testimonials-grid(testimonials, columns)" class="testimonials-grid" xmlns:th="http://www.thymeleaf.org">
+    <div class="testimonials-container" th:classappend="'grid-columns-' + ${columns ?: '2'}">
+        <div th:each="testimonial : ${testimonials}" 
+             th:replace="~{components/testimonial :: testimonial(${testimonial})}"
+             class="testimonial-grid-item">
+        </div>
+    </div>
+</div>
+
+<!-- Featured Testimonials Section -->
+<div th:fragment="featured-testimonials(title, testimonials)" class="featured-testimonials-section" xmlns:th="http://www.thymeleaf.org">
+    <div class="container">
+        <div class="section-header">
+            <h2 th:text="${title ?: 'What Our Clients Say'}" class="section-title">What Our Clients Say</h2>
+            <p class="section-subtitle">Real feedback from satisfied customers across various industries</p>
+        </div>
+        
+        <div class="featured-testimonials-content">
+            <!-- Testimonials Display -->
+            <div th:if="${testimonials.size() == 1}">
+                <!-- Single Featured Testimonial -->
+                <div class="single-featured-testimonial">
+                    <div th:replace="~{components/testimonial :: testimonial(${testimonials[0]})}"></div>
+                </div>
+            </div>
+            
+            <div th:if="${testimonials.size() > 1 and testimonials.size() <= 3}">
+                <!-- Grid Layout for 2-3 testimonials -->
+                <div th:replace="~{components/testimonial :: testimonials-grid(${testimonials}, ${testimonials.size()})}"></div>
+            </div>
+            
+            <div th:if="${testimonials.size() > 3}">
+                <!-- Carousel for many testimonials -->
+                <div th:replace="~{components/testimonial :: testimonial-carousel(${testimonials})}"></div>
+            </div>
+        </div>
+        
+        <!-- Testimonial Statistics -->
+        <div class="testimonial-stats" th:if="${testimonialStats}">
+            <div class="stat-item">
+                <div class="stat-number" th:text="${testimonialStats.averageRating}">4.8</div>
+                <div class="stat-label">Average Rating</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" th:text="${testimonialStats.totalReviews}">150+</div>
+                <div class="stat-label">Client Reviews</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" th:text="${testimonialStats.satisfactionRate}">98%</div>
+                <div class="stat-label">Satisfaction Rate</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" th:text="${testimonialStats.recommendationRate}">95%</div>
+                <div class="stat-label">Would Recommend</div>
+            </div>
+        </div>
+        
+        <!-- Call to Action -->
+        <div class="testimonials-cta">
+            <h3>Ready to Join Our Satisfied Clients?</h3>
+            <p>Contact us today to discuss your project requirements and see how we can help transform your infrastructure.</p>
+            <a href="/contact" class="btn btn-primary">Start Your Project</a>
+            <a href="/projects" class="btn btn-secondary">View Case Studies</a>
+        </div>
+    </div>
+</div>
+
+<!-- Compact Testimonial (for sidebars) -->
+<div th:fragment="testimonial-compact(testimonial)" class="testimonial-compact" xmlns:th="http://www.thymeleaf.org">
+    <div class="compact-testimonial-container">
+        <div class="compact-quote">
+            <i class="icon-quote-small"></i>
+            <p th:text="${testimonial.shortQuote ?: testimonial.quote}">Brief testimonial quote</p>
+        </div>
+        
+        <div class="compact-author">
+            <strong th:text="${testimonial.authorName}">Author Name</strong>
+            <span th:text="${testimonial.companyName}">Company</span>
+        </div>
+        
+        <div class="compact-rating" th:if="${testimonial.rating}">
+            <span th:each="i : ${#numbers.sequence(1, testimonial.rating)}" class="star-filled">★</span>
+            <span th:each="i : ${#numbers.sequence(testimonial.rating + 1, 5)}" class="star-empty">☆</span>
+        </div>
+    </div>
+</div>
+
+<!-- Video Testimonial Component -->
+<div th:fragment="video-testimonial(testimonial)" class="video-testimonial" xmlns:th="http://www.thymeleaf.org">
+    <div class="video-testimonial-container">
+        <!-- Video Player -->
+        <div class="video-player">
+            <video th:if="${testimonial.videoUrl}" 
+                   controls 
+                   preload="metadata"
+                   th:poster="${testimonial.videoPoster}">
+                <source th:src="${testimonial.videoUrl}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            
+            <!-- Video Thumbnail with Play Button -->
+            <div class="video-thumbnail" th:if="${testimonial.videoPoster}">
+                <img th:src="${testimonial.videoPoster}" 
+                     th:alt="'Video testimonial from ' + ${testimonial.authorName}"
+                     loading="lazy">
+                <button class="play-button" aria-label="Play video testimonial">
+                    <i class="icon-play"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Video Information -->
+        <div class="video-info">
+            <h3 th:text="${testimonial.title}">Video Testimonial Title</h3>
+            <p th:text="${testimonial.description}">Video description</p>
+            
+            <div class="video-author">
+                <strong th:text="${testimonial.authorName}">Author Name</strong>
+                <span th:text="${testimonial.authorTitle}">Job Title</span>
+                <span th:text="${testimonial.companyName}">Company Name</span>
+            </div>
+            
+            <div class="video-duration" th:if="${testimonial.duration}">
+                <i class="icon-clock"></i>
+                <span th:text="${testimonial.duration}">2:30</span>
+            </div>
+        </div>
+    </div>
+</div>

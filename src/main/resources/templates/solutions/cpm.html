@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/base}">
+<head>
+    <title>Chiller Plant Management - Hash Rate Communications</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <!-- Page Header -->
+        <section class="page-header">
+            <div class="container">
+                <h1>Chiller Plant Management</h1>
+                <p>Advanced control and optimization for maximum efficiency</p>
+                <nav class="breadcrumb">
+                    <a href="/">Home</a> > <a href="/solutions">Solutions</a> > <span>Chiller Plant Management</span>
+                </nav>
+            </div>
+        </section>
+        
+        <!-- Solution Overview -->
+        <section class="solution-overview">
+            <div class="container">
+                <div class="overview-content">
+                    <div class="overview-text">
+                        <h2>Intelligent Chiller Plant Optimization</h2>
+                        <p>Our Chiller Plant Management (CPM) solution provides intelligent control and optimization of central chiller plants, delivering significant energy savings while maintaining optimal comfort conditions.</p>
+                        <p>The system uses advanced algorithms to optimize chiller sequencing, condenser water temperature, and pump speeds based on real-time load conditions and equipment performance characteristics.</p>
+                    </div>
+                    <div class="overview-image">
+                        <img src="/images/chiller-plant-control.jpg" alt="Chiller Plant Control Room">
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Key Features -->
+        <section class="key-features">
+            <div class="container">
+                <h2>Advanced Control Features</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="icon-optimization"></i>
+                        </div>
+                        <h3>Load Optimization</h3>
+                        <p>Real-time load distribution algorithms that optimize chiller staging and loading for maximum efficiency.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="icon-energy"></i>
+                        </div>
+                        <h3>Energy Management</h3>
+                        <p>Continuous monitoring and optimization of energy consumption with predictive load forecasting.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="icon-predictive"></i>
+                        </div>
+                        <h3>Predictive Maintenance</h3>
+                        <p>Advanced analytics to predict equipment failures and schedule maintenance before breakdowns occur.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="icon-trending"></i>
+                        </div>
+                        <h3>Performance Trending</h3>
+                        <p>Historical performance analysis and trending to identify efficiency degradation and optimization opportunities.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="icon-remote"></i>
+                        </div>
+                        <h3>Remote Diagnostics</h3>
+                        <p>Remote monitoring and diagnostic capabilities for proactive system management and support.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="icon-integration"></i>
+                        </div>
+                        <h3>System Integration</h3>
+                        <p>Seamless integration with existing BMS and SCADA systems using standard communication protocols.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- System Components -->
+        <section class="system-components">
+            <div class="container">
+                <h2>System Components</h2>
+                <div class="components-tabs">
+                    <button class="tab-button active" data-tab="chillers">Chiller Control</button>
+                    <button class="tab-button" data-tab="pumps">Pump Systems</button>
+                    <button class="tab-button" data-tab="cooling-tower">Cooling Towers</button>
+                    <button class="tab-button" data-tab="distribution">Distribution Systems</button>
+                </div>
+                
+                <!-- Chiller Control -->
+                <div id="chillers" class="tab-content active">
+                    <h3>Chiller Control & Optimization</h3>
+                    <div class="component-grid">
+                        <div class="component-item">
+                            <h4>Load Sequencing</h4>
+                            <ul>
+                                <li>Intelligent chiller staging algorithms</li>
+                                <li>Load balancing optimization</li>
+                                <li>Efficiency-based sequencing</li>
+                                <li>Minimum run time enforcement</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="component-item">
+                            <h4>Performance Monitoring</h4>
+                            <ul>
+                                <li>Real-time efficiency calculations</li>
+                                <li>Power consumption tracking</li>
+                                <li>Refrigerant condition monitoring</li>
+                                <li>Vibration and noise analysis</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="component-item">
+                            <h4>Safety & Protection</h4>
+                            <ul>
+                                <li>Safety interlock monitoring</li>
+                                <li>Alarm management system</li>
+                                <li>Emergency shutdown procedures</li>
+                                <li>Pressure and temperature limits</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pump Systems -->
+                <div id="pumps" class="tab-content">
+                    <h3>Pump System Control</h3>
+                    <div class="component-grid">
+                        <div class="component-item">
+                            <h4>Variable Speed Control</h4>
+                            <ul>
+                                <li>VFD integration and control</li>
+                                <li>Differential pressure optimization</li>
+                                <li>Flow rate modulation</li>
+                                <li>Energy-efficient operation</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="component-item">
+                            <h4>Primary/Secondary Systems</h4>
+                            <ul>
+                                <li>Primary pump staging</li>
+                                <li>Secondary pump control</li>
+                                <li>Bypass valve management</li>
+                                <li>System hydraulics optimization</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="component-item">
+                            <h4>Pump Performance</h4>
+                            <ul>
+                                <li>Pump curve analysis</li>
+                                <li>Efficiency monitoring</li>
+                                <li>Cavitation detection</li>
+                                <li>Wear monitoring</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Cooling Towers -->
+                <div id="cooling-tower" class="tab-content">
+                    <h3>Cooling Tower Optimization</h3>
+                    <div class="component-grid">
+                        <div class="component-item">
+                            <h4>Temperature Control</h4>
+                            <ul>
+                                <li>Condenser water temperature reset</li>
+                                <li>Wet-bulb temperature optimization</li>
+                                <li>Approach temperature monitoring</li>
+                                <li>Seasonal control strategies</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="component-item">
+                            <h4>Fan Control</h4>
+                            <ul>
+                                <li>Variable speed fan control</li>
+                                <li>Cell staging optimization</li>
+                                <li>Energy consumption minimization</li>
+                                <li>Sound level management</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="component-item">
+                            <h4>Water Treatment</h4>
+                            <ul>
+                                <li>Chemical dosing control</li>
+                                <li>Blowdown management</li>
+                                <li>Water quality monitoring</li>
+                                <li>Legionella prevention</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Distribution Systems -->
+                <div id="distribution" class="tab-content">
+                    <h3>Distribution System Control</h3>
+                    <div class="component-grid">
+                        <div class="component-item">
+                            <h4>Temperature Reset</h4>
+                            <ul>
+                                <li>Supply water temperature reset</li>
+                                <li>Load-based optimization</li>
+                                <li>Outside air compensation</li>
+                                <li>Zone demand analysis</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="component-item">
+                            <h4>Flow Management</h4>
+                            <ul>
+                                <li>Variable primary flow control</li>
+                                <li>Minimum flow protection</li>
+                                <li>Bypass control strategies</li>
+                                <li>System balancing</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="component-item">
+                            <h4>Valve Control</h4>
+                            <ul>
+                                <li>Control valve optimization</li>
+                                <li>Pressure independent control</li>
+                                <li>Hydronic balancing</li>
+                                <li>Coil performance optimization</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Control Strategies -->
+        <section class="control-strategies">
+            <div class="container">
+                <h2>Advanced Control Strategies</h2>
+                <div class="strategies-grid">
+                    <div class="strategy-card">
+                        <h3>Demand-Based Control</h3>
+                        <p>Dynamic adjustment of plant operation based on real-time cooling demand from connected air handling units and zone requirements.</p>
+                        <ul>
+                            <li>Load prediction algorithms</li>
+                            <li>Demand forecasting</li>
+                            <li>Pre-cooling strategies</li>
+                            <li>Peak demand management</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="strategy-card">
+                        <h3>Weather Compensation</h3>
+                        <p>Integration with weather data and forecasts to optimize plant operation based on outdoor conditions and predicted loads.</p>
+                        <ul>
+                            <li>Weather station integration</li>
+                            <li>Forecast-based control</li>
+                            <li>Seasonal adaptation</li>
+                            <li>Free cooling optimization</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="strategy-card">
+                        <h3>Efficiency Optimization</h3>
+                        <p>Continuous optimization of plant efficiency through real-time analysis of equipment performance and operating conditions.</p>
+                        <ul>
+                            <li>Real-time efficiency calculations</li>
+                            <li>Performance benchmarking</li>
+                            <li>Optimization algorithms</li>
+                            <li>Energy cost minimization</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Performance Metrics -->
+        <section class="performance-metrics">
+            <div class="container">
+                <h2>Key Performance Indicators</h2>
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-value">15-30%</div>
+                        <div class="metric-label">Energy Savings</div>
+                        <p>Typical energy consumption reduction compared to conventional control methods</p>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-value">0.45-0.65</div>
+                        <div class="metric-label">kW/Ton Efficiency</div>
+                        <p>Optimized plant efficiency during normal operating conditions</p>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-value">99.5%</div>
+                        <div class="metric-label">System Reliability</div>
+                        <p>High availability through predictive maintenance and fault detection</p>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-value">2-3 Years</div>
+                        <div class="metric-label">ROI Period</div>
+                        <p>Typical return on investment through energy savings and reduced maintenance</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Benefits -->
+        <section class="benefits-section">
+            <div class="container">
+                <h2>Business Benefits</h2>
+                <div class="benefits-grid">
+                    <div class="benefit">
+                        <h3>Significant Energy Savings</h3>
+                        <p>Achieve 15-30% energy reduction through intelligent load optimization and equipment sequencing.</p>
+                    </div>
+                    <div class="benefit">
+                        <h3>Extended Equipment Life</h3>
+                        <p>Reduce equipment wear and extend service life through optimized operation and predictive maintenance.</p>
+                    </div>
+                    <div class="benefit">
+                        <h3>Improved Reliability</h3>
+                        <p>Minimize unplanned downtime through advanced diagnostics and proactive maintenance scheduling.</p>
+                    </div>
+                    <div class="benefit">
+                        <h3>Reduced Operating Costs</h3>
+                        <p>Lower maintenance costs and energy expenses while maintaining optimal comfort conditions.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Contact CTA -->
+        <section class="contact-cta">
+            <div class="container">
+                <h2>Optimize Your Chiller Plant Performance</h2>
+                <p>Contact our experts to learn how CPM can transform your chiller plant efficiency and reduce operating costs.</p>
+                <a href="/contact" class="btn btn-primary">Request Analysis</a>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

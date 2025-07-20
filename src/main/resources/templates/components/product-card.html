@@ -1,0 +1,231 @@
+<!-- Basic Product Card Component -->
+<div th:fragment="product-card(product)" class="product-card" xmlns:th="http://www.thymeleaf.org">
+    <div class="product-card-container">
+        <!-- Product Image -->
+        <div class="product-image">
+            <img th:src="${product.imageUrl}" 
+                 th:alt="${product.title}"
+                 loading="lazy">
+            
+            <!-- Product Badge -->
+            <div class="product-badge" th:if="${product.isFeatured}">
+                <span th:text="${product.badgeText ?: 'Featured'}">Featured</span>
+            </div>
+            
+            <!-- Product Category -->
+            <div class="product-category" th:if="${product.category}">
+                <span th:text="${product.category.displayName}">Category</span>
+            </div>
+        </div>
+        
+        <!-- Product Content -->
+        <div class="product-content">
+            <div class="product-header">
+                <h3 class="product-title">
+                    <a th:href="@{/products/{slug}(slug=${product.slug})}" th:text="${product.title}">Product Title</a>
+                </h3>
+                
+                <div class="product-rating" th:if="${product.averageRating}">
+                    <div class="rating-stars">
+                        <span class="stars" th:each="i : ${#numbers.sequence(1, 5)}">
+                            <i th:class="${i <= product.averageRating} ? 'icon-star-filled' : 'icon-star-empty'"></i>
+                        </span>
+                    </div>
+                    <span class="rating-count" th:text="'(' + ${product.reviewCount} + ' reviews)'>(12 reviews)</span>
+                </div>
+            </div>
+            
+            <div class="product-description">
+                <p th:text="${product.shortDescription}">Product short description goes here...</p>
+            </div>
+            
+            <!-- Key Features -->
+            <div class="product-features" th:if="${product.keyFeatures}">
+                <h4>Key Features:</h4>
+                <ul>
+                    <li th:each="feature : ${product.keyFeatures}" th:text="${feature}">Feature item</li>
+                </ul>
+            </div>
+            
+            <!-- Technical Specifications -->
+            <div class="product-specs" th:if="${product.specifications}">
+                <h4>Specifications:</h4>
+                <dl class="specs-list">
+                    <div th:each="spec : ${product.specifications}" class="spec-item">
+                        <dt th:text="${spec.name}">Spec Name</dt>
+                        <dd th:text="${spec.value}">Spec Value</dd>
+                    </div>
+                </dl>
+            </div>
+            
+            <!-- Product Tags -->
+            <div class="product-tags" th:if="${product.tags}">
+                <span th:each="tag : ${product.tags}" 
+                      class="product-tag" 
+                      th:text="${tag}">Tag</span>
+            </div>
+        </div>
+        
+        <!-- Product Footer -->
+        <div class="product-footer">
+            <!-- Pricing Information -->
+            <div class="product-pricing" th:if="${product.showPricing}">
+                <div class="price-range" th:if="${product.priceRange}">
+                    <span class="price-label">Starting at</span>
+                    <span class="price-value" th:text="'$' + ${product.priceRange.min}">$999</span>
+                </div>
+                <div class="price-note" th:if="${product.priceNote}">
+                    <small th:text="${product.priceNote}">Price varies by configuration</small>
+                </div>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="product-actions">
+                <a th:href="@{/products/{slug}(slug=${product.slug})}" 
+                   class="btn btn-primary">
+                    View Details
+                </a>
+                <a th:href="@{/contact(product=${product.slug})}" 
+                   class="btn btn-secondary">
+                    Get Quote
+                </a>
+                
+                <!-- Additional Actions -->
+                <div class="product-secondary-actions">
+                    <button class="btn-icon" title="Add to Wishlist" th:if="${product.allowWishlist}">
+                        <i class="icon-heart"></i>
+                    </button>
+                    <button class="btn-icon" title="Compare Product" th:if="${product.allowComparison}">
+                        <i class="icon-compare"></i>
+                    </button>
+                    <button class="btn-icon" title="Share Product">
+                        <i class="icon-share"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Availability Status -->
+        <div class="product-availability" th:if="${product.availabilityStatus}">
+            <div class="availability-indicator" 
+                 th:classappend="${product.availabilityStatus.toLowerCase()}">
+                <i class="availability-icon" 
+                   th:class="${product.availabilityStatus == 'IN_STOCK'} ? 'icon-check-circle' : 
+                             ${product.availabilityStatus == 'LIMITED'} ? 'icon-warning-circle' : 'icon-x-circle'"></i>
+                <span th:text="${product.availabilityText}">In Stock</span>
+            </div>
+            <small th:if="${product.deliveryTime}" 
+                   th:text="'Ships in ' + ${product.deliveryTime}">Ships in 2-3 weeks</small>
+        </div>
+    </div>
+</div>
+
+<!-- Product Grid Component -->
+<div th:fragment="product-grid(products, columns)" class="product-grid" xmlns:th="http://www.thymeleaf.org">
+    <div class="products-container" th:classappend="'grid-columns-' + ${columns ?: '3'}">
+        <div th:each="product : ${products}" 
+             th:replace="~{components/product-card :: product-card(${product})}"
+             class="product-grid-item">
+        </div>
+    </div>
+</div>
+
+<!-- Featured Products Section -->
+<div th:fragment="featured-products(title, products)" class="featured-products-section" xmlns:th="http://www.thymeleaf.org">
+    <div class="container">
+        <div class="section-header">
+            <h2 th:text="${title ?: 'Featured Products'}" class="section-title">Featured Products</h2>
+            <p class="section-subtitle">Discover our most popular and innovative solutions</p>
+        </div>
+        
+        <div class="featured-products-content">
+            <!-- Product Filters -->
+            <div class="product-filters" th:if="${products.size() > 6}">
+                <button class="filter-btn active" data-filter="all">All Products</button>
+                <button class="filter-btn" data-filter="servers">Servers</button>
+                <button class="filter-btn" data-filter="datacenter">Datacenter</button>
+                <button class="filter-btn" data-filter="controllers">Controllers</button>
+                <button class="filter-btn" data-filter="bms">BMS</button>
+            </div>
+            
+            <!-- Products Grid -->
+            <div th:replace="~{components/product-card :: product-grid(${products}, 3)}"></div>
+            
+            <!-- View All Link -->
+            <div class="section-footer">
+                <a href="/products" class="btn btn-outline">View All Products</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Compact Product Card (for lists/sidebars) -->
+<div th:fragment="product-card-compact(product)" class="product-card-compact" xmlns:th="http://www.thymeleaf.org">
+    <div class="compact-card-container">
+        <div class="compact-image">
+            <img th:src="${product.thumbnailUrl ?: product.imageUrl}" 
+                 th:alt="${product.title}"
+                 loading="lazy">
+        </div>
+        
+        <div class="compact-content">
+            <h4 class="compact-title">
+                <a th:href="@{/products/{slug}(slug=${product.slug})}" th:text="${product.title}">Product Title</a>
+            </h4>
+            
+            <p class="compact-description" th:text="${product.briefDescription}">Brief description</p>
+            
+            <div class="compact-meta">
+                <span class="product-category" th:text="${product.category?.displayName}">Category</span>
+                <span class="product-price" th:if="${product.startingPrice}" 
+                      th:text="'Starting at $' + ${product.startingPrice}">Starting at $999</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Product Comparison Component -->
+<div th:fragment="product-comparison(products)" class="product-comparison" xmlns:th="http://www.thymeleaf.org">
+    <div class="comparison-container">
+        <h3>Compare Products</h3>
+        
+        <div class="comparison-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th th:each="product : ${products}" th:text="${product.title}">Product Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Product Images -->
+                    <tr class="product-images">
+                        <td><strong>Product</strong></td>
+                        <td th:each="product : ${products}">
+                            <img th:src="${product.imageUrl}" th:alt="${product.title}" class="comparison-image">
+                        </td>
+                    </tr>
+                    
+                    <!-- Key Specifications -->
+                    <tr th:each="specName : ${comparisonSpecs}">
+                        <td th:text="${specName}">Specification Name</td>
+                        <td th:each="product : ${products}">
+                            <span th:text="${product.specifications[specName] ?: 'N/A'}">Spec Value</span>
+                        </td>
+                    </tr>
+                    
+                    <!-- Actions -->
+                    <tr class="comparison-actions">
+                        <td><strong>Actions</strong></td>
+                        <td th:each="product : ${products}">
+                            <div class="comparison-buttons">
+                                <a th:href="@{/products/{slug}(slug=${product.slug})}" class="btn btn-sm btn-primary">View Details</a>
+                                <a th:href="@{/contact(product=${product.slug})}" class="btn btn-sm btn-secondary">Get Quote</a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

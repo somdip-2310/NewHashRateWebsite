@@ -1,0 +1,64 @@
+<header th:fragment="header">
+    <nav class="navbar">
+        <div class="container">
+            <!-- Logo -->
+            <div class="navbar-brand">
+                <a href="/" class="logo">
+                    <img src="/images/logo.png" alt="Hash Rate Communications" class="logo-img">
+                    <span class="logo-text">Hash Rate Communications</span>
+                </a>
+            </div>
+            
+            <!-- Navigation Menu -->
+            <div class="navbar-menu">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a href="/" class="nav-link">Home</a>
+                    </li>
+                    
+                    <li class="nav-item dropdown">
+                        <a href="/products" class="nav-link">Products</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/products/servers">Servers & Workstations</a></li>
+                            <li><a href="/products/datacenter-hardware">Datacenter Hardware</a></li>
+                            <li><a href="/products/controllers">Controllers & Converters</a></li>
+                            <li><a href="/products/bms">Building Management Systems</a></li>
+                        </ul>
+                    </li>
+                    
+                    <li class="nav-item dropdown">
+                        <a href="/solutions" class="nav-link">Solutions</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/solutions/central-dashboard">Central Dashboard</a></li>
+                            <li><a href="/solutions/asset-tracking">Asset Tracking</a></li>
+                            <li><a href="/solutions/cpm">Chiller Plant Management</a></li>
+                        </ul>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a href="/services" class="nav-link">Services</a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a href="/projects" class="nav-link">Projects</a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a href="/careers" class="nav-link">Careers</a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a href="/contact" class="nav-link">Contact</a>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- Mobile Menu Toggle -->
+            <div class="mobile-menu-toggle">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </div>
+        </div>
+    </nav>
+</header>

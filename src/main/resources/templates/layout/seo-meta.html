@@ -1,0 +1,119 @@
+<!-- SEO Meta Fragment -->
+<div th:fragment="seo-meta" xmlns:th="http://www.thymeleaf.org">
+    <!-- Basic Meta Tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- Title -->
+    <title th:text="${seoMetadata?.title} ?: ${pageTitle} + ' - Hash Rate Communications'">Hash Rate Communications</title>
+    
+    <!-- Meta Description -->
+    <meta name="description" th:content="${seoMetadata?.description} ?: 'Leading provider of datacenter infrastructure solutions, building management systems, and industrial automation services.'">
+    
+    <!-- Meta Keywords -->
+    <meta name="keywords" th:content="${seoMetadata?.keywords} ?: 'datacenter, infrastructure, BMS, DCIM, industrial automation, building management, chiller plant management, asset tracking, HVAC control'">
+    
+    <!-- Author -->
+    <meta name="author" content="Hash Rate Communications">
+    
+    <!-- Robots -->
+    <meta name="robots" th:content="${seoMetadata?.robots} ?: 'index, follow'">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" th:href="${seoMetadata?.canonicalUrl} ?: ${#httpServletRequest.requestURL}">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Hash Rate Communications">
+    <meta property="og:title" th:content="${seoMetadata?.ogTitle} ?: ${pageTitle} + ' - Hash Rate Communications'">
+    <meta property="og:description" th:content="${seoMetadata?.ogDescription} ?: ${seoMetadata?.description} ?: 'Leading provider of datacenter infrastructure solutions, building management systems, and industrial automation services.'">
+    <meta property="og:url" th:content="${seoMetadata?.ogUrl} ?: ${#httpServletRequest.requestURL}">
+    <meta property="og:image" th:content="${seoMetadata?.ogImage} ?: '/images/og-default.jpg'">
+    <meta property="og:image:alt" th:content="${seoMetadata?.ogImageAlt} ?: 'Hash Rate Communications - Datacenter Infrastructure Solutions'">
+    <meta property="og:locale" content="en_US">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@hashratecommunications">
+    <meta name="twitter:title" th:content="${seoMetadata?.twitterTitle} ?: ${seoMetadata?.title} ?: ${pageTitle} + ' - Hash Rate Communications'">
+    <meta name="twitter:description" th:content="${seoMetadata?.twitterDescription} ?: ${seoMetadata?.description} ?: 'Leading provider of datacenter infrastructure solutions, building management systems, and industrial automation services.'">
+    <meta name="twitter:image" th:content="${seoMetadata?.twitterImage} ?: ${seoMetadata?.ogImage} ?: '/images/twitter-card.jpg'">
+    <meta name="twitter:image:alt" th:content="${seoMetadata?.twitterImageAlt} ?: 'Hash Rate Communications - Datacenter Infrastructure Solutions'">
+    
+    <!-- Additional SEO Meta Tags -->
+    <meta name="theme-color" content="#2c5aa0">
+    <meta name="msapplication-TileColor" content="#2c5aa0">
+    
+    <!-- Schema.org JSON-LD -->
+    <script type="application/ld+json" th:utext="${seoMetadata?.jsonLd}">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Hash Rate Communications",
+        "url": "https://hashratecommunications.com",
+        "logo": "https://hashratecommunications.com/images/logo.png",
+        "description": "Leading provider of datacenter infrastructure solutions, building management systems, and industrial automation services.",
+        "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "US"
+        },
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+1-555-123-4567",
+            "contactType": "customer service",
+            "email": "info@hashratecommunications.com"
+        },
+        "sameAs": [
+            "https://www.linkedin.com/company/hashratecommunications",
+            "https://twitter.com/hashratecommunications"
+        ]
+    }
+    </script>
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    
+    <!-- DNS Prefetch for External Resources -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+    
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="/css/main.css" as="style" th:if="${#strings.isEmpty(seoMetadata?.customCSS)}">
+    <link rel="preload" th:href="${seoMetadata?.customCSS}" as="style" th:if="${!#strings.isEmpty(seoMetadata?.customCSS)}">
+    
+    <!-- Custom Meta Tags from SEO Metadata -->
+    <th:block th:if="${seoMetadata?.customMetaTags}">
+        <th:block th:each="metaTag : ${seoMetadata.customMetaTags}">
+            <meta th:name="${metaTag.name}" th:content="${metaTag.content}" th:if="${metaTag.name}">
+            <meta th:property="${metaTag.property}" th:content="${metaTag.content}" th:if="${metaTag.property}">
+        </th:block>
+    </th:block>
+    
+    <!-- Hreflang Tags for International SEO -->
+    <th:block th:if="${seoMetadata?.hreflangTags}">
+        <link th:each="hreflang : ${seoMetadata.hreflangTags}" 
+              rel="alternate" 
+              th:hreflang="${hreflang.language}" 
+              th:href="${hreflang.url}">
+    </th:block>
+    
+    <!-- Google Analytics (replace with your tracking ID) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_TRACKING_ID" th:if="${seoMetadata?.googleAnalyticsId}"></script>
+    <script th:if="${seoMetadata?.googleAnalyticsId}">
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', /*[[${seoMetadata.googleAnalyticsId}]]*/ 'GA_TRACKING_ID');
+    </script>
+    
+    <!-- Google Search Console Verification -->
+    <meta name="google-site-verification" th:content="${seoMetadata?.googleSearchConsoleId}" th:if="${seoMetadata?.googleSearchConsoleId}">
+    
+    <!-- Bing Webmaster Tools Verification -->
+    <meta name="msvalidate.01" th:content="${seoMetadata?.bingWebmasterToolsId}" th:if="${seoMetadata?.bingWebmasterToolsId}">
+</div>

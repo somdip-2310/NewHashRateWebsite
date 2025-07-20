@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- SEO Meta Tags -->
+    <title th:text="${seoMetadata != null ? seoMetadata.title : 'Hash Rate Communications'}">Hash Rate Communications</title>
+    <meta name="description" th:content="${seoMetadata != null ? seoMetadata.description : 'Leading provider of datacenter infrastructure solutions'}">
+    <meta name="keywords" th:content="${seoMetadata != null ? seoMetadata.keywords : 'datacenter, infrastructure, BMS, DCIM, industrial automation'}">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" th:content="${seoMetadata != null ? seoMetadata.title : 'Hash Rate Communications'}">
+    <meta property="og:description" th:content="${seoMetadata != null ? seoMetadata.description : 'Leading provider of datacenter infrastructure solutions'}">
+    <meta property="og:type" content="website">
+    
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/png" href="/favicon.ico">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <div th:replace="~{layout/header :: header}"></div>
+    
+    <!-- Main Content -->
+    <main layout:fragment="content">
+        <!-- Page content will be inserted here -->
+    </main>
+    
+    <!-- Footer -->
+    <div th:replace="~{layout/footer :: footer}"></div>
+    
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</body>
+</html>

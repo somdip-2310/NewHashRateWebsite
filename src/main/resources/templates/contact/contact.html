@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/base}">
+<head>
+    <title>Contact Us - Hash Rate Communications</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <!-- Page Header -->
+        <section class="page-header">
+            <div class="container">
+                <h1>Contact Us</h1>
+                <p>Get in touch with our experts to discuss your infrastructure needs</p>
+                <nav class="breadcrumb">
+                    <a href="/">Home</a> > <span>Contact</span>
+                </nav>
+            </div>
+        </section>
+        
+        <!-- Contact Information -->
+        <section class="contact-info">
+            <div class="container">
+                <div class="contact-grid">
+                    <!-- Company Information -->
+                    <div class="contact-details">
+                        <h2>Get in Touch</h2>
+                        <p>Ready to transform your infrastructure? Our team of experts is here to help you design, implement, and optimize solutions that drive efficiency and reliability.</p>
+                        
+                        <div class="contact-methods">
+                            <div class="contact-method">
+                                <div class="method-icon">
+                                    <i class="icon-phone"></i>
+                                </div>
+                                <div class="method-details">
+                                    <h3>Phone</h3>
+                                    <p><a href="tel:+1-555-123-4567">+1 (555) 123-4567</a></p>
+                                    <small>24/7 Emergency Support Available</small>
+                                </div>
+                            </div>
+                            
+                            <div class="contact-method">
+                                <div class="method-icon">
+                                    <i class="icon-email"></i>
+                                </div>
+                                <div class="method-details">
+                                    <h3>Email</h3>
+                                    <p><a href="mailto:info@hashratecommunications.com">info@hashratecommunications.com</a></p>
+                                    <small>Response within 24 hours</small>
+                                </div>
+                            </div>
+                            
+                            <div class="contact-method">
+                                <div class="method-icon">
+                                    <i class="icon-location"></i>
+                                </div>
+                                <div class="method-details">
+                                    <h3>Office</h3>
+                                    <p>123 Technology Drive<br>
+                                    Innovation District<br>
+                                    Tech City, TC 12345</p>
+                                    <small>Monday - Friday, 8:00 AM - 6:00 PM</small>
+                                </div>
+                            </div>
+                            
+                            <div class="contact-method">
+                                <div class="method-icon">
+                                    <i class="icon-support"></i>
+                                </div>
+                                <div class="method-details">
+                                    <h3>Support</h3>
+                                    <p><a href="mailto:support@hashratecommunications.com">support@hashratecommunications.com</a></p>
+                                    <small>Technical Support & Service</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Contact Form -->
+                    <div class="contact-form-section">
+                        <div class="form-container">
+                            <h3>Send Us a Message</h3>
+                            <p>Fill out the form below and we'll get back to you within 24 hours.</p>
+                            
+                            <form th:action="@{/contact}" th:object="${contactForm}" method="post" class="contact-form">
+                                <!-- Contact Type -->
+                                <div class="form-group">
+                                    <label for="inquiryType">Inquiry Type*</label>
+                                    <select th:field="*{inquiryType}" id="inquiryType" class="form-control" required>
+                                        <option value="">Select inquiry type</option>
+                                        <option value="GENERAL">General Information</option>
+                                        <option value="SALES">Sales Inquiry</option>
+                                        <option value="SUPPORT">Technical Support</option>
+                                        <option value="PARTNERSHIP">Partnership Opportunity</option>
+                                        <option value="CAREERS">Career Inquiry</option>
+                                    </select>
+                                    <div th:if="${#fields.hasErrors('inquiryType')}" th:errors="*{inquiryType}" class="error-message"></div>
+                                </div>
+                                
+                                <!-- Personal Information -->
+                                <div class="form-row">
+                                    <div class="form-group half-width">
+                                        <label for="firstName">First Name*</label>
+                                        <input type="text" th:field="*{firstName}" id="firstName" class="form-control" required>
+                                        <div th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="error-message"></div>
+                                    </div>
+                                    
+                                    <div class="form-group half-width">
+                                        <label for="lastName">Last Name*</label>
+                                        <input type="text" th:field="*{lastName}" id="lastName" class="form-control" required>
+                                        <div th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="error-message"></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group half-width">
+                                        <label for="email">Email Address*</label>
+                                        <input type="email" th:field="*{email}" id="email" class="form-control" required>
+                                        <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error-message"></div>
+                                    </div>
+                                    
+                                    <div class="form-group half-width">
+                                        <label for="phone">Phone Number</label>
+                                        <input type="tel" th:field="*{phone}" id="phone" class="form-control">
+                                        <div th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" class="error-message"></div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Company Information -->
+                                <div class="form-row">
+                                    <div class="form-group half-width">
+                                        <label for="company">Company/Organization</label>
+                                        <input type="text" th:field="*{company}" id="company" class="form-control">
+                                        <div th:if="${#fields.hasErrors('company')}" th:errors="*{company}" class="error-message"></div>
+                                    </div>
+                                    
+                                    <div class="form-group half-width">
+                                        <label for="jobTitle">Job Title</label>
+                                        <input type="text" th:field="*{jobTitle}" id="jobTitle" class="form-control">
+                                        <div th:if="${#fields.hasErrors('jobTitle')}" th:errors="*{jobTitle}" class="error-message"></div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Project Details -->
+                                <div class="form-group">
+                                    <label for="projectType">Project Type</label>
+                                    <select th:field="*{projectType}" id="projectType" class="form-control">
+                                        <option value="">Select project type</option>
+                                        <option value="NEW_INSTALLATION">New Installation</option>
+                                        <option value="SYSTEM_UPGRADE">System Upgrade</option>
+                                        <option value="MAINTENANCE">Maintenance & Support</option>
+                                        <option value="CONSULTATION">Consultation</option>
+                                        <option value="EMERGENCY_SERVICE">Emergency Service</option>
+                                    </select>
+                                    <div th:if="${#fields.hasErrors('projectType')}" th:errors="*{projectType}" class="error-message"></div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group half-width">
+                                        <label for="budget">Estimated Budget</label>
+                                        <select th:field="*{budget}" id="budget" class="form-control">
+                                            <option value="">Select budget range</option>
+                                            <option value="UNDER_50K">Under $50,000</option>
+                                            <option value="50K_100K">$50,000 - $100,000</option>
+                                            <option value="100K_250K">$100,000 - $250,000</option>
+                                            <option value="250K_500K">$250,000 - $500,000</option>
+                                            <option value="500K_1M">$500,000 - $1,000,000</option>
+                                            <option value="OVER_1M">Over $1,000,000</option>
+                                        </select>
+                                        <div th:if="${#fields.hasErrors('budget')}" th:errors="*{budget}" class="error-message"></div>
+                                    </div>
+                                    
+                                    <div class="form-group half-width">
+                                        <label for="timeline">Project Timeline</label>
+                                        <select th:field="*{timeline}" id="timeline" class="form-control">
+                                            <option value="">Select timeline</option>
+                                            <option value="IMMEDIATE">Immediate (Emergency)</option>
+                                            <option value="1_MONTH">Within 1 Month</option>
+                                            <option value="1_3_MONTHS">1-3 Months</option>
+                                            <option value="3_6_MONTHS">3-6 Months</option>
+                                            <option value="6_12_MONTHS">6-12 Months</option>
+                                            <option value="OVER_1_YEAR">Over 1 Year</option>
+                                        </select>
+                                        <div th:if="${#fields.hasErrors('timeline')}" th:errors="*{timeline}" class="error-message"></div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Message -->
+                                <div class="form-group">
+                                    <label for="message">Message*</label>
+                                    <textarea th:field="*{message}" id="message" class="form-control" rows="5" 
+                                              placeholder="Please describe your project requirements, current challenges, or any specific questions you have..." required></textarea>
+                                    <div th:if="${#fields.hasErrors('message')}" th:errors="*{message}" class="error-message"></div>
+                                </div>
+                                
+                                <!-- Areas of Interest -->
+                                <div class="form-group">
+                                    <label>Areas of Interest (Select all that apply)</label>
+                                    <div class="checkbox-group">
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" th:field="*{areasOfInterest}" value="BMS" id="interest_bms">
+                                            <label for="interest_bms">Building Management Systems</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" th:field="*{areasOfInterest}" value="DATACENTER" id="interest_datacenter">
+                                            <label for="interest_datacenter">Datacenter Infrastructure</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" th:field="*{areasOfInterest}" value="ENERGY_MANAGEMENT" id="interest_energy">
+                                            <label for="interest_energy">Energy Management</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" th:field="*{areasOfInterest}" value="AUTOMATION" id="interest_automation">
+                                            <label for="interest_automation">Industrial Automation</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" th:field="*{areasOfInterest}" value="MAINTENANCE" id="interest_maintenance">
+                                            <label for="interest_maintenance">Maintenance & Support</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Privacy Consent -->
+                                <div class="form-group">
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" th:field="*{privacyConsent}" id="privacy_consent" required>
+                                        <label for="privacy_consent">I agree to the <a href="/privacy-policy" target="_blank">Privacy Policy</a> and consent to being contacted by Hash Rate Communications regarding my inquiry.*</label>
+                                    </div>
+                                    <div th:if="${#fields.hasErrors('privacyConsent')}" th:errors="*{privacyConsent}" class="error-message"></div>
+                                </div>
+                                
+                                <!-- Newsletter Subscription -->
+                                <div class="form-group">
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" th:field="*{subscribeNewsletter}" id="subscribe_newsletter">
+                                        <label for="subscribe_newsletter">Subscribe to our newsletter for industry insights and updates</label>
+                                    </div>
+                                </div>
+                                
+                                <!-- Submit Button -->
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary btn-block">Send Message</button>
+                                </div>
+                            </form>
+                            
+                            <!-- Success/Error Messages -->
+                            <div th:if="${contactSuccess}" class="alert alert-success">
+                                <strong>Thank you!</strong> Your message has been sent successfully. We'll get back to you within 24 hours.
+                            </div>
+                            
+                            <div th:if="${contactError}" class="alert alert-error">
+                                <strong>Error:</strong> There was a problem sending your message. Please try again or contact us directly.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Office Locations -->
+        <section class="office-locations">
+            <div class="container">
+                <h2>Office Locations</h2>
+                <div class="locations-grid">
+                    <!-- Headquarters -->
+                    <div class="location-card">
+                        <h3>Headquarters</h3>
+                        <div class="location-details">
+                            <p><strong>Hash Rate Communications</strong></p>
+                            <p>123 Technology Drive<br>
+                            Innovation District<br>
+                            Tech City, TC 12345</p>
+                            <p><strong>Phone:</strong> <a href="tel:+1-555-123-4567">+1 (555) 123-4567</a></p>
+                            <p><strong>Email:</strong> <a href="mailto:info@hashratecommunications.com">info@hashratecommunications.com</a></p>
+                        </div>
+                        <div class="location-hours">
+                            <h4>Business Hours</h4>
+                            <p>Monday - Friday: 8:00 AM - 6:00 PM<br>
+                            Saturday: 9:00 AM - 2:00 PM<br>
+                            Sunday: Emergency Service Only</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Regional Office -->
+                    <div class="location-card">
+                        <h3>Regional Office</h3>
+                        <div class="location-details">
+                            <p><strong>West Coast Operations</strong></p>
+                            <p>456 Pacific Boulevard<br>
+                            Suite 200<br>
+                            Coastal City, CC 67890</p>
+                            <p><strong>Phone:</strong> <a href="tel:+1-555-987-6543">+1 (555) 987-6543</a></p>
+                            <p><strong>Email:</strong> <a href="mailto:west@hashratecommunications.com">west@hashratecommunications.com</a></p>
+                        </div>
+                        <div class="location-hours">
+                            <h4>Business Hours</h4>
+                            <p>Monday - Friday: 8:00 AM - 5:00 PM<br>
+                            Saturday: By Appointment<br>
+                            Sunday: Emergency Service Only</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Service Center -->
+                    <div class="location-card">
+                        <h3>Service Center</h3>
+                        <div class="location-details">
+                            <p><strong>24/7 Service Operations</strong></p>
+                            <p>789 Industrial Park Way<br>
+                            Building C<br>
+                            Service Hub, SH 11223</p>
+                            <p><strong>Emergency:</strong> <a href="tel:+1-555-SUPPORT">+1 (555) SUPPORT</a></p>
+                            <p><strong>Email:</strong> <a href="mailto:emergency@hashratecommunications.com">emergency@hashratecommunications.com</a></p>
+                        </div>
+                        <div class="location-hours">
+                            <h4>Service Hours</h4>
+                            <p>24/7 Emergency Support<br>
+                            Standard Service:<br>
+                            Monday - Sunday: 6:00 AM - 10:00 PM</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Map Section -->
+        <section class="map-section">
+            <div class="container">
+                <h2>Find Us</h2>
+                <div class="map-container">
+                    <!-- Google Maps Embed -->
+                    <div class="map-embed">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3024.123456789!2d-74.123456!3d40.123456!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDDCsDA3JzI0LjQiTiA3NMKwMDcnMjQuNCJX!5e0!3m2!1sen!2sus!4v1234567890123!5m2!1sen!2sus" 
+                                width="100%" 
+                                height="400" 
+                                style="border:0;" 
+                                allowfullscreen="" 
+                                loading="lazy" 
+                                referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                    
+                    <!-- Directions -->
+                    <div class="directions">
+                        <h3>Directions</h3>
+                        <div class="direction-options">
+                            <h4>From Downtown:</h4>
+                            <p>Take Highway 101 North to Exit 15. Turn right on Technology Drive. We're in the Innovation District, Building 123.</p>
+                            
+                            <h4>From Airport:</h4>
+                            <p>Take Airport Express to downtown, then follow above directions. Approximately 25 minutes by car, 45 minutes by public transit.</p>
+                            
+                            <h4>Parking:</h4>
+                            <p>Free visitor parking available in our building garage. Enter from Technology Drive and follow signs to visitor spaces.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- FAQ Section -->
+        <section class="contact-faq">
+            <div class="container">
+                <h2>Frequently Asked Questions</h2>
+                <div class="faq-grid">
+                    <div class="faq-item">
+                        <h3>What is your typical response time?</h3>
+                        <p>We respond to all inquiries within 24 hours during business days. Emergency support is available 24/7 with response times under 4 hours.</p>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <h3>Do you provide free consultations?</h3>
+                        <p>Yes, we offer complimentary initial consultations to understand your requirements and provide preliminary recommendations.</p>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <h3>What geographic areas do you serve?</h3>
+                        <p>We serve clients nationwide with local offices and certified partners in major metropolitan areas. International projects are also supported.</p>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <h3>Can you work with existing systems?</h3>
+                        <p>Absolutely. We specialize in integrating new solutions with existing infrastructure and can retrofit or upgrade most legacy systems.</p>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <h3>Do you provide training?</h3>
+                        <p>Yes, comprehensive training programs are included with all installations. We also offer ongoing education and certification courses.</p>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <h3>What about warranty and support?</h3>
+                        <p>All installations include comprehensive warranties and we offer various support packages including 24/7 monitoring and maintenance services.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

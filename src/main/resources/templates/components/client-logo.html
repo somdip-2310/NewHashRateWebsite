@@ -1,0 +1,138 @@
+<!-- Client Logo Component -->
+<div th:fragment="client-logo(client)" class="client-logo-component" xmlns:th="http://www.thymeleaf.org">
+    <div class="client-logo-card">
+        <!-- Logo Image -->
+        <div class="client-logo-image">
+            <img th:src="${client.logoUrl}" 
+                 th:alt="${client.name} + ' Logo'" 
+                 th:title="${client.name}"
+                 loading="lazy">
+        </div>
+        
+        <!-- Client Information (Optional) -->
+        <div class="client-logo-info" th:if="${client.showInfo}">
+            <h4 th:text="${client.name}" class="client-name">Client Name</h4>
+            <p th:text="${client.industry}" class="client-industry">Industry</p>
+            <p th:if="${client.description}" th:text="${client.description}" class="client-description">Client description</p>
+        </div>
+        
+        <!-- Client Link (Optional) -->
+        <a th:if="${client.websiteUrl}" 
+           th:href="${client.websiteUrl}" 
+           class="client-link" 
+           target="_blank" 
+           rel="noopener noreferrer"
+           th:title="'Visit ' + ${client.name} + ' website'">
+            <span class="visually-hidden" th:text="'Visit ' + ${client.name} + ' website'">Visit website</span>
+        </a>
+    </div>
+</div>
+
+<!-- Client Logo Grid Component -->
+<div th:fragment="client-logo-grid(clients, columns)" class="client-logo-grid" xmlns:th="http://www.thymeleaf.org">
+    <div class="client-logos-container" th:classappend="'columns-' + ${columns ?: '4'}">
+        <div th:each="client : ${clients}" 
+             th:replace="~{components/client-logo :: client-logo(${client})}"
+             class="client-logo-item">
+        </div>
+    </div>
+</div>
+
+<!-- Featured Clients Section -->
+<div th:fragment="featured-clients(title, clients)" class="featured-clients-section" xmlns:th="http://www.thymeleaf.org">
+    <div class="container">
+        <div class="section-header">
+            <h2 th:text="${title ?: 'Our Trusted Clients'}" class="section-title">Our Trusted Clients</h2>
+            <p class="section-subtitle">Proud to serve industry leaders across multiple sectors</p>
+        </div>
+        
+        <div class="featured-clients-content">
+            <!-- Client Categories -->
+            <div class="client-categories" th:if="${clients.size() > 8}">
+                <button class="category-filter active" data-filter="all">All Clients</button>
+                <button class="category-filter" data-filter="healthcare">Healthcare</button>
+                <button class="category-filter" data-filter="education">Education</button>
+                <button class="category-filter" data-filter="datacenter">Data Centers</button>
+                <button class="category-filter" data-filter="manufacturing">Manufacturing</button>
+                <button class="category-filter" data-filter="government">Government</button>
+            </div>
+            
+            <!-- Client Logos -->
+            <div class="clients-showcase">
+                <div th:each="client : ${clients}" 
+                     class="client-showcase-item"
+                     th:attr="data-category=${client.industry?.toLowerCase()}">
+                    
+                    <div class="client-logo-wrapper">
+                        <img th:src="${client.logoUrl}" 
+                             th:alt="${client.name} + ' Logo'"
+                             th:title="${client.name}"
+                             loading="lazy">
+                        
+                        <!-- Hover Information -->
+                        <div class="client-hover-info">
+                            <h4 th:text="${client.name}">Client Name</h4>
+                            <p th:text="${client.industry}">Industry</p>
+                            <div class="client-stats" th:if="${client.projectStats}">
+                                <span th:if="${client.projectStats.projectCount}" 
+                                      th:text="${client.projectStats.projectCount} + ' Projects'">5 Projects</span>
+                                <span th:if="${client.projectStats.totalValue}" 
+                                      th:text="'$' + ${client.projectStats.totalValue}">$2.5M</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Partnership Badge -->
+                        <div class="partnership-badge" th:if="${client.partnershipLevel}">
+                            <span th:text="${client.partnershipLevel}" 
+                                  th:class="'badge-' + ${client.partnershipLevel?.toLowerCase()}">Premier Partner</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Client Statistics -->
+            <div class="client-statistics" th:if="${clientStats}">
+                <div class="stat-item">
+                    <div class="stat-number" th:text="${clientStats.totalClients}">150+</div>
+                    <div class="stat-label">Satisfied Clients</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" th:text="${clientStats.fortuneClientsCount}">25</div>
+                    <div class="stat-label">Fortune 500 Companies</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" th:text="${clientStats.retentionRate}">95%</div>
+                    <div class="stat-label">Client Retention Rate</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" th:text="${clientStats.averageProjectSize}">$850K</div>
+                    <div class="stat-label">Average Project Value</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Testimonial with Client Logo -->
+<div th:fragment="client-testimonial-with-logo(testimonial)" class="client-testimonial-logo" xmlns:th="http://www.thymeleaf.org">
+    <div class="testimonial-content">
+        <blockquote th:text="${testimonial.quote}">Client testimonial quote</blockquote>
+        
+        <div class="testimonial-attribution">
+            <div class="client-info">
+                <div class="client-logo-small">
+                    <img th:src="${testimonial.client?.logoUrl}" 
+                         th:alt="${testimonial.client?.name} + ' Logo'"
+                         loading="lazy">
+                </div>
+                <div class="client-details">
+                    <cite>
+                        <strong th:text="${testimonial.authorName}">Author Name</strong>
+                        <span th:text="${testimonial.authorTitle}">Title</span>
+                        <span th:text="${testimonial.client?.name}">Company Name</span>
+                    </cite>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

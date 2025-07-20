@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/base}">
+<head>
+    <title>Servers & Workstations - Hash Rate Communications</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <!-- Page Header -->
+        <section class="page-header">
+            <div class="container">
+                <h1>Servers & Workstations</h1>
+                <nav class="breadcrumb">
+                    <a href="/">Home</a> > <a href="/products">Products</a> > <span>Servers & Workstations</span>
+                </nav>
+            </div>
+        </section>
+        
+        <!-- Product Categories -->
+        <section class="product-categories">
+            <div class="container">
+                <div class="category-tabs">
+                    <button class="tab-button active" data-tab="rack-servers">Rack Servers</button>
+                    <button class="tab-button" data-tab="blade-servers">Blade Servers</button>
+                    <button class="tab-button" data-tab="workstations">Workstations</button>
+                    <button class="tab-button" data-tab="storage">Storage Systems</button>
+                </div>
+                
+                <!-- Rack Servers -->
+                <div id="rack-servers" class="tab-content active">
+                    <h2>Rack Servers</h2>
+                    <div class="products-grid">
+                        <div class="product-item">
+                            <h3>Enterprise Rack Server 1U</h3>
+                            <ul>
+                                <li>Intel Xeon processors</li>
+                                <li>Up to 512GB DDR4 RAM</li>
+                                <li>Hot-swappable drives</li>
+                                <li>Redundant power supplies</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="product-item">
+                            <h3>Enterprise Rack Server 2U</h3>
+                            <ul>
+                                <li>Dual socket configuration</li>
+                                <li>Up to 1TB DDR4 RAM</li>
+                                <li>24 drive bays</li>
+                                <li>Advanced cooling system</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Blade Servers -->
+                <div id="blade-servers" class="tab-content">
+                    <h2>Blade Servers</h2>
+                    <div class="products-grid">
+                        <div class="product-item">
+                            <h3>Blade Server Chassis</h3>
+                            <ul>
+                                <li>Up to 16 blade slots</li>
+                                <li>Shared power and cooling</li>
+                                <li>Integrated KVM</li>
+                                <li>High-speed interconnects</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Workstations -->
+                <div id="workstations" class="tab-content">
+                    <h2>Professional Workstations</h2>
+                    <div class="products-grid">
+                        <div class="product-item">
+                            <h3>CAD Workstation</h3>
+                            <ul>
+                                <li>High-performance graphics</li>
+                                <li>Intel Core i9 processors</li>
+                                <li>Up to 128GB RAM</li>
+                                <li>Professional GPU support</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Storage Systems -->
+                <div id="storage" class="tab-content">
+                    <h2>Storage Systems</h2>
+                    <div class="products-grid">
+                        <div class="product-item">
+                            <h3>Network Attached Storage</h3>
+                            <ul>
+                                <li>Scalable storage capacity</li>
+                                <li>RAID configurations</li>
+                                <li>High availability</li>
+                                <li>Remote management</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Contact CTA -->
+        <section class="contact-cta">
+            <div class="container">
+                <h2>Need Custom Configuration?</h2>
+                <p>Our experts can help design the perfect server solution for your specific requirements.</p>
+                <a href="/contact" class="btn btn-primary">Contact Our Team</a>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

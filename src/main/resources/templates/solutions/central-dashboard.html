@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/base}">
+<head>
+    <title>Central Dashboard Solution - Hash Rate Communications</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <!-- Page Header -->
+        <section class="page-header">
+            <div class="container">
+                <h1>Central Dashboard Solution</h1>
+                <p>Unified monitoring and control platform for complete building visibility</p>
+                <nav class="breadcrumb">
+                    <a href="/">Home</a> > <a href="/solutions">Solutions</a> > <span>Central Dashboard</span>
+                </nav>
+            </div>
+        </section>
+        
+        <!-- Solution Overview -->
+        <section class="solution-overview">
+            <div class="container">
+                <div class="overview-content">
+                    <div class="overview-text">
+                        <h2>Complete Building Visibility</h2>
+                        <p>Our Central Dashboard Solution provides facility managers with a unified view of all building systems, enabling proactive management, energy optimization, and rapid response to issues.</p>
+                        <p>The intuitive interface consolidates data from HVAC, lighting, security, fire safety, and energy systems into a single, easy-to-use platform accessible from any device.</p>
+                    </div>
+                    <div class="overview-image">
+                        <img src="/images/dashboard-interface.jpg" alt="Central Dashboard Interface">
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Key Features -->
+        <section class="key-features">
+            <div class="container">
+                <h2>Key Features</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="icon-monitor"></i>
+                        </div>
+                        <h3>Real-Time Monitoring</h3>
+                        <p>Live data from all building systems displayed in customizable dashboards with graphical representations and trend analysis.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="icon-alert"></i>
+                        </div>
+                        <h3>Intelligent Alarms</h3>
+                        <p>Smart alarm management with prioritization, escalation procedures, and automated notification to appropriate personnel.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="icon-analytics"></i>
+                        </div>
+                        <h3>Energy Analytics</h3>
+                        <p>Comprehensive energy consumption analysis with cost tracking, efficiency metrics, and optimization recommendations.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="icon-mobile"></i>
+                        </div>
+                        <h3>Mobile Access</h3>
+                        <p>Full functionality available on mobile devices, enabling remote monitoring and control from anywhere.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="icon-reports"></i>
+                        </div>
+                        <h3>Automated Reporting</h3>
+                        <p>Scheduled reports for energy consumption, system performance, maintenance activities, and compliance documentation.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="icon-integration"></i>
+                        </div>
+                        <h3>System Integration</h3>
+                        <p>Seamless integration with existing building systems using industry-standard protocols like BACnet, Modbus, and SNMP.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Dashboard Components -->
+        <section class="dashboard-components">
+            <div class="container">
+                <h2>Dashboard Components</h2>
+                <div class="components-tabs">
+                    <button class="tab-button active" data-tab="overview">System Overview</button>
+                    <button class="tab-button" data-tab="energy">Energy Management</button>
+                    <button class="tab-button" data-tab="alarms">Alarm Management</button>
+                    <button class="tab-button" data-tab="maintenance">Maintenance</button>
+                </div>
+                
+                <!-- System Overview -->
+                <div id="overview" class="tab-content active">
+                    <h3>System Overview Dashboard</h3>
+                    <div class="component-details">
+                        <ul>
+                            <li>Real-time system status indicators</li>
+                            <li>Building floor plans with clickable areas</li>
+                            <li>Current environmental conditions</li>
+                            <li>Equipment operational status</li>
+                            <li>Active alarms summary</li>
+                            <li>Energy consumption overview</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Energy Management -->
+                <div id="energy" class="tab-content">
+                    <h3>Energy Management Dashboard</h3>
+                    <div class="component-details">
+                        <ul>
+                            <li>Real-time power consumption meters</li>
+                            <li>Energy cost tracking and budgeting</li>
+                            <li>Load demand forecasting</li>
+                            <li>Peak demand management</li>
+                            <li>Carbon footprint calculations</li>
+                            <li>Energy efficiency benchmarking</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Alarm Management -->
+                <div id="alarms" class="tab-content">
+                    <h3>Alarm Management Dashboard</h3>
+                    <div class="component-details">
+                        <ul>
+                            <li>Active alarms list with priorities</li>
+                            <li>Alarm acknowledgment tracking</li>
+                            <li>Historical alarm analysis</li>
+                            <li>Escalation procedures management</li>
+                            <li>Alarm frequency statistics</li>
+                            <li>Performance trending for alarm resolution</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Maintenance -->
+                <div id="maintenance" class="tab-content">
+                    <h3>Maintenance Dashboard</h3>
+                    <div class="component-details">
+                        <ul>
+                            <li>Scheduled maintenance calendar</li>
+                            <li>Work order management</li>
+                            <li>Equipment runtime tracking</li>
+                            <li>Preventive maintenance alerts</li>
+                            <li>Spare parts inventory monitoring</li>
+                            <li>Maintenance cost tracking</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Benefits -->
+        <section class="benefits-section">
+            <div class="container">
+                <h2>Benefits</h2>
+                <div class="benefits-grid">
+                    <div class="benefit">
+                        <h3>Reduced Operating Costs</h3>
+                        <p>Optimize energy consumption and reduce maintenance costs through proactive management and predictive analytics.</p>
+                    </div>
+                    <div class="benefit">
+                        <h3>Improved Efficiency</h3>
+                        <p>Streamline facility operations with centralized control and automated processes that eliminate manual monitoring tasks.</p>
+                    </div>
+                    <div class="benefit">
+                        <h3>Enhanced Comfort</h3>
+                        <p>Maintain optimal environmental conditions for occupants while maximizing system efficiency and performance.</p>
+                    </div>
+                    <div class="benefit">
+                        <h3>Better Decision Making</h3>
+                        <p>Access to real-time data and analytics enables informed decisions about system operation and capital investments.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Contact CTA -->
+        <section class="contact-cta">
+            <div class="container">
+                <h2>Ready to Implement Central Dashboard?</h2>
+                <p>Contact our experts to learn how Central Dashboard can transform your facility management operations.</p>
+                <a href="/contact" class="btn btn-primary">Request Consultation</a>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

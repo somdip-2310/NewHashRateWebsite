@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/base}">
+<head>
+    <title>Solutions - Hash Rate Communications</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <!-- Page Header -->
+        <section class="page-header">
+            <div class="container">
+                <h1>Our Solutions</h1>
+                <p>Comprehensive technology solutions designed to optimize your operations</p>
+                <nav class="breadcrumb">
+                    <a href="/">Home</a> > <span>Solutions</span>
+                </nav>
+            </div>
+        </section>
+        
+        <!-- Solutions Overview -->
+        <section class="solutions-overview">
+            <div class="container">
+                <div class="solutions-grid">
+                    <div th:each="solution : ${solutions}" class="solution-card">
+                        <div class="solution-icon">
+                            <i th:class="${solution.iconClass}"></i>
+                        </div>
+                        <div class="solution-content">
+                            <h3 th:text="${solution.title}">Solution Title</h3>
+                            <p th:text="${solution.shortDescription}">Solution description</p>
+                            <div class="solution-features">
+                                <ul>
+                                    <li th:each="feature : ${solution.keyFeatures}" th:text="${feature}">Feature</li>
+                                </ul>
+                            </div>
+                            <div class="solution-actions">
+                                <a th:href="@{/solutions/{slug}(slug=${solution.slug})}" class="btn btn-primary">Learn More</a>
+                                <a href="/contact" class="btn btn-secondary">Get Quote</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Featured Solutions -->
+        <section class="featured-solutions">
+            <div class="container">
+                <h2>Featured Solutions</h2>
+                
+                <!-- Central Dashboard -->
+                <div class="featured-solution">
+                    <div class="solution-image">
+                        <img src="/images/central-dashboard.jpg" alt="Central Dashboard">
+                    </div>
+                    <div class="solution-details">
+                        <h3>Central Dashboard Solution</h3>
+                        <p>Unified monitoring and control platform that provides real-time visibility into all your building systems from a single interface.</p>
+                        <ul class="feature-list">
+                            <li>Real-time system monitoring</li>
+                            <li>Alarm management and notifications</li>
+                            <li>Energy consumption analytics</li>
+                            <li>Predictive maintenance alerts</li>
+                            <li>Mobile accessibility</li>
+                        </ul>
+                        <a href="/solutions/central-dashboard" class="btn btn-primary">Explore Central Dashboard</a>
+                    </div>
+                </div>
+                
+                <!-- Asset Tracking -->
+                <div class="featured-solution">
+                    <div class="solution-details">
+                        <h3>Asset Tracking Solution</h3>
+                        <p>Comprehensive asset management system that tracks equipment lifecycle, maintenance schedules, and performance metrics.</p>
+                        <ul class="feature-list">
+                            <li>RFID and barcode tracking</li>
+                            <li>Maintenance scheduling</li>
+                            <li>Asset performance analytics</li>
+                            <li>Inventory management</li>
+                            <li>Compliance reporting</li>
+                        </ul>
+                        <a href="/solutions/asset-tracking" class="btn btn-primary">Explore Asset Tracking</a>
+                    </div>
+                    <div class="solution-image">
+                        <img src="/images/asset-tracking.jpg" alt="Asset Tracking">
+                    </div>
+                </div>
+                
+                <!-- Chiller Plant Management -->
+                <div class="featured-solution">
+                    <div class="solution-image">
+                        <img src="/images/chiller-plant.jpg" alt="Chiller Plant Management">
+                    </div>
+                    <div class="solution-details">
+                        <h3>Chiller Plant Management</h3>
+                        <p>Advanced control and optimization system for chiller plants that maximizes efficiency while maintaining optimal comfort conditions.</p>
+                        <ul class="feature-list">
+                            <li>Load optimization algorithms</li>
+                            <li>Energy consumption monitoring</li>
+                            <li>Predictive maintenance</li>
+                            <li>Performance trending</li>
+                            <li>Remote diagnostics</li>
+                        </ul>
+                        <a href="/solutions/cpm" class="btn btn-primary">Explore CPM</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Industry Applications -->
+        <section class="industry-applications">
+            <div class="container">
+                <h2>Industry Applications</h2>
+                <div class="industries-grid">
+                    <div class="industry">
+                        <h3>Healthcare</h3>
+                        <p>Critical environment monitoring, patient comfort systems, and energy management for hospitals and medical facilities.</p>
+                    </div>
+                    <div class="industry">
+                        <h3>Education</h3>
+                        <p>Campus-wide building management, energy optimization, and learning environment control for educational institutions.</p>
+                    </div>
+                    <div class="industry">
+                        <h3>Commercial Real Estate</h3>
+                        <p>Multi-tenant building management, cost allocation, and tenant comfort systems for office buildings and retail spaces.</p>
+                    </div>
+                    <div class="industry">
+                        <h3>Manufacturing</h3>
+                        <p>Process control, environmental monitoring, and energy management for industrial manufacturing facilities.</p>
+                    </div>
+                    <div class="industry">
+                        <h3>Data Centers</h3>
+                        <p>Precision cooling control, power monitoring, and infrastructure management for mission-critical data center operations.</p>
+                    </div>
+                    <div class="industry">
+                        <h3>Government</h3>
+                        <p>Public building management, energy conservation, and security integration for government facilities and military installations.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

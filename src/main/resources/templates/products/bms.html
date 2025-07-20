@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/base}">
+<head>
+    <title>Building Management Systems - Hash Rate Communications</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <!-- Page Header -->
+        <section class="page-header">
+            <div class="container">
+                <h1>Building Management Systems</h1>
+                <nav class="breadcrumb">
+                    <a href="/">Home</a> > <a href="/products">Products</a> > <span>Building Management Systems</span>
+                </nav>
+            </div>
+        </section>
+        
+        <!-- BMS Overview -->
+        <section class="bms-overview">
+            <div class="container">
+                <div class="overview-content">
+                    <h2>Comprehensive Building Control Solutions</h2>
+                    <p>Our Building Management Systems provide centralized control and monitoring of all building systems including HVAC, lighting, security, and fire safety. Designed for energy efficiency, operational excellence, and occupant comfort.</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- BMS Components -->
+        <section class="bms-components">
+            <div class="container">
+                <div class="components-tabs">
+                    <button class="tab-button active" data-tab="hvac">HVAC Control</button>
+                    <button class="tab-button" data-tab="lighting">Lighting Systems</button>
+                    <button class="tab-button" data-tab="security">Security Integration</button>
+                    <button class="tab-button" data-tab="fire-safety">Fire Safety</button>
+                    <button class="tab-button" data-tab="energy">Energy Management</button>
+                </div>
+                
+                <!-- HVAC Control -->
+                <div id="hvac" class="tab-content active">
+                    <h3>HVAC Control Systems</h3>
+                    <div class="component-grid">
+                        <div class="component-item">
+                            <h4>Air Handling Units</h4>
+                            <p>Complete control of supply and return air systems with variable air volume control.</p>
+                            <ul>
+                                <li>Temperature and humidity control</li>
+                                <li>Filter monitoring and alerts</li>
+                                <li>Energy optimization algorithms</li>
+                                <li>Fault detection and diagnostics</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="component-item">
+                            <h4>Chiller Systems</h4>
+                            <p>Advanced chiller plant control with load optimization and energy management.</p>
+                            <ul>
+                                <li>Load balancing algorithms</li>
+                                <li>Condenser water optimization</li>
+                                <li>Predictive maintenance alerts</li>
+                                <li>Performance trending</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="component-item">
+                            <h4>Zone Control</h4>
+                            <p>Individual zone temperature and comfort control with occupancy sensing.</p>
+                            <ul>
+                                <li>VAV box control</li>
+                                <li>Occupancy-based operation</li>
+                                <li>Demand-controlled ventilation</li>
+                                <li>Thermal comfort optimization</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Lighting Systems -->
+                <div id="lighting" class="tab-content">
+                    <h3>Intelligent Lighting Control</h3>
+                    <div class="component-grid">
+                        <div class="component-item">
+                            <h4>Automated Lighting</h4>
+                            <p>Smart lighting control based on occupancy, daylight, and scheduling.</p>
+                            <ul>
+                                <li>Daylight harvesting</li>
+                                <li>Occupancy sensing</li>
+                                <li>Scene control</li>
+                                <li>Energy monitoring</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="component-item">
+                            <h4>Emergency Lighting</h4>
+                            <p>Integrated emergency and exit lighting with battery backup monitoring.</p>
+                            <ul>
+                                <li>Self-testing systems</li>
+                                <li>Battery status monitoring</li>
+                                <li>Compliance reporting</li>
+                                <li>Remote diagnostics</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Security Integration -->
+                <div id="security" class="tab-content">
+                    <h3>Security System Integration</h3>
+                    <div class="component-grid">
+                        <div class="component-item">
+                            <h4>Access Control</h4>
+                            <p>Card reader and biometric access control integration with BMS.</p>
+                            <ul>
+                                <li>Multi-level access control</li>
+                                <li>Time-based restrictions</li>
+                                <li>Visitor management</li>
+                                <li>Audit trail reporting</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="component-item">
+                            <h4>Video Surveillance</h4>
+                            <p>CCTV integration with alarm management and event correlation.</p>
+                            <ul>
+                                <li>Motion detection alerts</li>
+                                <li>Video analytics</li>
+                                <li>Event-triggered recording</li>
+                                <li>Remote monitoring</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Fire Safety -->
+                <div id="fire-safety" class="tab-content">
+                    <h3>Fire Safety Components</h3>
+                    <div class="component-grid">
+                        <div class="component-item">
+                            <h4>Fire Alarm Systems</h4>
+                            <p>Integrated fire detection and alarm management.</p>
+                            <ul>
+                                <li>Smoke and heat detectors</li>
+                                <li>Manual pull stations</li>
+                                <li>Voice evacuation systems</li>
+                                <li>Emergency communication</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="component-item">
+                            <h4>Suppression Systems</h4>
+                            <p>Fire suppression system monitoring and control.</p>
+                            <ul>
+                                <li>Sprinkler system monitoring</li>
+                                <li>Clean agent systems</li>
+                                <li>Water flow detection</li>
+                                <li>Valve position monitoring</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Energy Management -->
+                <div id="energy" class="tab-content">
+                    <h3>Energy Management</h3>
+                    <div class="component-grid">
+                        <div class="component-item">
+                            <h4>Energy Monitoring</h4>
+                            <p>Real-time energy consumption monitoring and reporting.</p>
+                            <ul>
+                                <li>Utility meter integration</li>
+                                <li>Sub-metering systems</li>
+                                <li>Power quality monitoring</li>
+                                <li>Cost allocation reporting</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="component-item">
+                            <h4>Load Management</h4>
+                            <p>Demand response and peak load management strategies.</p>
+                            <ul>
+                                <li>Peak demand limiting</li>
+                                <li>Load shedding protocols</li>
+                                <li>Time-of-use optimization</li>
+                                <li>Carbon footprint tracking</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Benefits Section -->
+        <section class="benefits-section">
+            <div class="container">
+                <h2>BMS Benefits</h2>
+                <div class="benefits-grid">
+                    <div class="benefit">
+                        <h3>Energy Savings</h3>
+                        <p>Reduce energy consumption by 20-40% through intelligent system optimization.</p>
+                    </div>
+                    <div class="benefit">
+                        <h3>Operational Efficiency</h3>
+                        <p>Centralized control reduces maintenance costs and improves system reliability.</p>
+                    </div>
+                    <div class="benefit">
+                        <h3>Occupant Comfort</h3>
+                        <p>Maintain optimal environmental conditions for improved productivity.</p>
+                    </div>
+                    <div class="benefit">
+                        <h3>Compliance</h3>
+                        <p>Meet building codes and sustainability standards with automated reporting.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>
