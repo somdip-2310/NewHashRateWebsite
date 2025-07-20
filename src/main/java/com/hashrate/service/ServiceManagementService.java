@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,15 +28,17 @@ public class ServiceManagementService {
     
     private final ServiceRepository serviceRepository;
     private final SeoUtils seoUtils;
-    private final SeoService seoService;
+    
+    // Use Lazy injection to break circular dependency
+    @Lazy
+    @Autowired
+    private SeoService seoService;
 
     @Autowired
     public ServiceManagementService(ServiceRepository serviceRepository,
-                                   SeoUtils seoUtils,
-                                   SeoService seoService) {
+                                   SeoUtils seoUtils) {
         this.serviceRepository = serviceRepository;
         this.seoUtils = seoUtils;
-        this.seoService = seoService;
     }
     
     @Cacheable(value = "services", key = "#slug")
@@ -94,9 +97,13 @@ public class ServiceManagementService {
             service.setSlug(seoUtils.generateSlug(service.getName()));
         }
         
-        // Generate SEO metadata if not provided
-        if (service.getSeoMetadata() == null) {
-            service.setSeoMetadata(seoService.generateServiceSeoMetadata(service));
+        // Generate SEO metadata if not provided - with null check for lazy injection
+        if (service.getSeoMetadata() == null && seoService != null) {
+            try {
+                service.setSeoMetadata(seoService.generateServiceSeoMetadata(service));
+            } catch (Exception e) {
+                log.warn("Failed to generate SEO metadata for service: {}", service.getName(), e);
+            }
         }
         
         return serviceRepository.save(service);

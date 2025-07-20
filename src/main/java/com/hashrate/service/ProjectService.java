@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -26,15 +27,17 @@ public class ProjectService {
 
     private final ProjectRepository projectRepository;
     private final SeoUtils seoUtils;
-    private final SeoService seoService;
+    
+    // Use Lazy injection to break circular dependency
+    @Lazy
+    @Autowired
+    private SeoService seoService;
 
     @Autowired
-    public ProjectService(ProjectRepository projectRepository, 
-                         SeoUtils seoUtils, 
-                         SeoService seoService) {
+    public ProjectService(ProjectRepository projectRepository,
+                         SeoUtils seoUtils) {
         this.projectRepository = projectRepository;
         this.seoUtils = seoUtils;
-        this.seoService = seoService;
     }
 
     @Cacheable(value = "projects", key = "'all-active'")
@@ -81,9 +84,13 @@ public class ProjectService {
     public Project save(Project project) {
         log.info("Saving project: {}", project.getProjectName());
 
-        // Generate SEO metadata if not provided
-        if (project.getSeoMetadata() == null) {
-            project.setSeoMetadata(seoService.generateProjectSeoMetadata(project));
+        // Generate SEO metadata if not provided - with null check for lazy injection
+        if (project.getSeoMetadata() == null && seoService != null) {
+            try {
+                project.setSeoMetadata(seoService.generateProjectSeoMetadata(project));
+            } catch (Exception e) {
+                log.warn("Failed to generate SEO metadata for project: {}", project.getProjectName(), e);
+            }
         }
 
         return projectRepository.save(project);

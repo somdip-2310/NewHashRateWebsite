@@ -34,6 +34,9 @@ public class EmailService {
     
     private static final Logger log = LoggerFactory.getLogger(EmailService.class);
     
+    @Value("${app.email.enabled:false}")
+    private boolean emailEnabled;
+    
     @Value("${app.email.from:noreply@hashrate.in}")
     private String fromEmail;
     
@@ -59,6 +62,11 @@ public class EmailService {
     }
     
     public void sendContactFormNotification(Contact contact) {
+        if (!emailEnabled) {
+            log.info("Email disabled - would have sent contact form notification for: {}", contact.getEmail());
+            return;
+        }
+        
         try {
             log.info("Sending contact form notification for: {}", contact.getEmail());
             
@@ -82,6 +90,11 @@ public class EmailService {
     }
     
     public void sendContactFormConfirmation(Contact contact) {
+        if (!emailEnabled) {
+            log.info("Email disabled - would have sent contact form confirmation to: {}", contact.getEmail());
+            return;
+        }
+        
         try {
             log.info("Sending contact form confirmation to: {}", contact.getEmail());
             
@@ -105,6 +118,12 @@ public class EmailService {
     }
     
     public void sendCareerApplicationEmail(Career career, CareerApplicationDTO application, String resumePath) {
+        if (!emailEnabled) {
+            log.info("Email disabled - would have sent career application email for job: {} from: {}", 
+                    career.getTitle(), application.getEmail());
+            return;
+        }
+        
         try {
             log.info("Sending career application email for job: {}", career.getTitle());
             
@@ -142,6 +161,11 @@ public class EmailService {
     }
     
     private void sendCareerApplicationConfirmation(Career career, CareerApplicationDTO application) {
+        if (!emailEnabled) {
+            log.info("Email disabled - would have sent career application confirmation to: {}", application.getEmail());
+            return;
+        }
+        
         try {
             log.info("Sending career application confirmation to: {}", application.getEmail());
             
@@ -166,6 +190,11 @@ public class EmailService {
     }
     
     public void sendTicketCreatedEmail(Ticket ticket) {
+        if (!emailEnabled) {
+            log.info("Email disabled - would have sent ticket created email for ticket: {}", ticket.getTicketNumber());
+            return;
+        }
+        
         try {
             log.info("Sending ticket created email for ticket: {}", ticket.getTicketNumber());
             
@@ -193,6 +222,11 @@ public class EmailService {
     }
     
     private void sendTicketConfirmation(Ticket ticket) {
+        if (!emailEnabled) {
+            log.info("Email disabled - would have sent ticket confirmation to: {}", ticket.getCustomerEmail());
+            return;
+        }
+        
         try {
             log.info("Sending ticket confirmation to: {}", ticket.getCustomerEmail());
             
@@ -216,6 +250,11 @@ public class EmailService {
     }
     
     public void sendTicketUpdateEmail(Ticket ticket) {
+        if (!emailEnabled) {
+            log.info("Email disabled - would have sent ticket update email for ticket: {}", ticket.getTicketNumber());
+            return;
+        }
+        
         try {
             log.info("Sending ticket update email for ticket: {}", ticket.getTicketNumber());
             
@@ -239,6 +278,11 @@ public class EmailService {
     }
     
     private void sendHtmlEmail(String to, String subject, String htmlContent) throws MessagingException {
+        if (!emailEnabled) {
+            log.info("Email disabled - would have sent HTML email to: {} with subject: {}", to, subject);
+            return;
+        }
+        
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true, StandardCharsets.UTF_8.name());
         
@@ -251,6 +295,11 @@ public class EmailService {
     }
     
     private void sendSimpleEmail(String to, String subject, String text) {
+        if (!emailEnabled) {
+            log.info("Email disabled - would have sent simple email to: {} with subject: {}", to, subject);
+            return;
+        }
+        
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(fromEmail);
         message.setTo(to);
@@ -261,6 +310,11 @@ public class EmailService {
     }
     
     private String processTemplate(String templateName, Map<String, Object> variables) {
+        if (!emailEnabled) {
+            log.debug("Email disabled - skipping template processing for: {}", templateName);
+            return "Email disabled - template processing skipped";
+        }
+        
         Context context = new Context();
         context.setVariables(variables);
         return templateEngine.process(templateName, context);
@@ -268,6 +322,11 @@ public class EmailService {
     
     // Test email functionality
     public void sendTestEmail(String to) {
+        if (!emailEnabled) {
+            log.info("Email disabled - would have sent test email to: {}", to);
+            return;
+        }
+        
         try {
             log.info("Sending test email to: {}", to);
             
